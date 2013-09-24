@@ -1,12 +1,17 @@
-acproxy
-=======
+CachingProxy
+============
 
-Anti Caching Proxy Class
+Caching Proxy Class
 
-The ACProxy include css files in other php scripts and build a path to the files, with an timestamp of the
-last modification in it.
+The CachingProxy include css and js files in other php scripts and build a path to the files,
+with an timestamp of the last modification in it.
 
-As the main feature acproxy detect, if the right .htcaccss file with the right rewrite rules exits.
-If not it will build up by acproxy cache.
+Main features are:
+------------------
+* detect last version of .css and .js Source files
+* detect .min version of .css and .js files
+* combine all .css and .js files to one cached file
+* auto create gzip version of cached file
+* depend on mod rewrite and browser, deliver precompressed files
 
-The folder demo contain some files to test the class and try out some configuration.
+The demo folder contain a sample webpage with the CSS and Javascript .

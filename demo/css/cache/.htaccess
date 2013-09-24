@@ -1,0 +1,8 @@
+RewriteEngine On
+
+# Use Precompressed gz Files
+AddEncoding gzip .gz
+RewriteCond %{HTTP:Accept-encoding} gzip
+RewriteCond %{REQUEST_FILENAME}.gz -f
+AddType text/css .gz
+RewriteRule ^(.*)\.css$ $1.css.gz [QSA,L]
