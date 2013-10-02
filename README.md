@@ -14,4 +14,10 @@ Main features are:
 * auto create gzip version of cached file
 * depend on mod rewrite and browser, deliver precompressed files
 
-The demo folder contain a sample webpage with the CSS and Javascript .
+Demo page:
+----------
+The /demo folder contain a sample webpage with the CSS and Javascript.
+
+Future Plans:
+-------------
+* Create .min version of .css and .js on the fly

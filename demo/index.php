@@ -43,6 +43,6 @@ require_once("../JsCachingProxy.class.php");
 <p>CachingProxy Demopage</p>
 <div id="bluebox"></div>
 <br />
-<input id="hitme" type="button" value="hit me!" />
+<input id="hitme" type="button" value="hit me to alter the box color from black to red!" />
 </body>
 </html>

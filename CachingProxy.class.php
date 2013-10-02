@@ -62,20 +62,20 @@ class CachingProxy {
     }
 
     public function getIncludeFileset() {
-        // Gibt eine Liste aller Dateien zurück, die
-        // eingebunden werden, erst die internen, dann die externen
-        // Der Nutzer kann später selbst bestimmen, was er mit den Dateien macht!
+        // Return list of all files that can include
+        // first all intern then all extern files
+        // the user can decide by himself, what he would like to do with the list
 
-        // Doppelte Dateien aus beden Dateilisten entfernen
+        // Exclude double files from filelist
         $this->internfilelist = array_unique($this->internfilelist);
         $this->externfilelist = array_unique($this->externfilelist);
 
         $returnfilelist = array();
 
-        // zuvorderst die Internen Dateien auf die gecachte Version umrechnen
+        // put intern files into the cached version
         $returnfilelist[] = $this->getCacheFile();
 
-        // Externe Dateien einfach anhängen
+        // extern files will only add to the list
         foreach($this->externfilelist AS $file) {
             $returnfilelist[] = $file;
         }
@@ -85,6 +85,7 @@ class CachingProxy {
 
     protected function setCachepath($cachepath) {
         // Setzten des Cachingpath, es muss immer vom Docroot des Projekts aus angegeben werden
+        // TODO: Check if there's a way to eleminate the absolut paths
 
         // Prüfen, ob der Pfad auf / endet, falls nicht jetzt hinzufügen
         if(!preg_match("#/$#",$cachepath)) {
