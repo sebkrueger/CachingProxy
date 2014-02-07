@@ -22,12 +22,15 @@
 namespace CachingProxy;
 
 class CachingProxy {
-    protected $internfilelist = array();        // Array mit Dateien die gecached werden sollen
-    protected $externfilelist = array();        // Array mit externen Dateien
+    protected $internfilelist = array();        // array with files that should be cached later
+    protected $externfilelist = array();        // array with extern files
 
-    protected $cachepath = null;                // Wo sollen die Dateien gecached werden
-    protected $relcachepath = null;             // Relativer Cachepath für spätere Pfadausgaben im html
-    protected $cachefileextension = null;       // Dateierweitung des Cachefiles
+    protected $cachepath = null;                // path were cached files should be placed
+    protected $relcachepath = null;             // relative cachepath for scripttags in html
+    protected $cachefileextension = null;       // fileending of cached files
+
+    // In debugmode every file will be include in a single tag without modification
+    protected $debugmode = false;
 
     public function __construct($cachingpath) {
         // Man kann einen beliebigen Cachingpfad vom Rootpath des Projektes aus setzen
@@ -72,8 +75,22 @@ class CachingProxy {
 
         $returnfilelist = array();
 
-        // put intern files into the cached version
-        $returnfilelist[] = $this->getCacheFile();
+        // generate cachefile
+        // the return will not be used in debugmode, but generate the files anyway
+        $OneModifiedCacheFile = $this->getCacheFile();
+
+        if($this->debugmode===false) {
+            // put intern files into the cached version
+            $returnfilelist[] = $OneModifiedCacheFile;
+        } else {
+            // we are in debugmode!
+            // only put the internfiles to the list of returned files
+            foreach($this->internfilelist AS $file) {
+                // strip the absolut dir for inclusion and put it to the list
+                // Use the $ as reg_exp separater because don't expect it in path
+                $returnfilelist[] = preg_replace("$^".(__DIR__)."$","",$file);
+            }
+        }
 
         // extern files will only add to the list
         foreach($this->externfilelist AS $file) {
@@ -81,6 +98,16 @@ class CachingProxy {
         }
 
         return $returnfilelist;
+    }
+
+    public function EnableDebugmode() {
+        // sweet as simple ... activate the debugmode
+        $this->debugmode=true;
+    }
+
+    public function DisableDebugmode() {
+        // belive it or not ... deactivate the debugmode
+        $this->debugmode=false;
     }
 
     protected function setCachepath($cachepath) {

@@ -1,0 +1,33 @@
+/*
+  Demo Stylesheet css_framework_abc/css_framework_abc.css
+  Show some issue with relative path in css frameworks
+  include Images with url tag in different version
+*/
+
+.bgImage {
+    width: 42px;
+    height: 24px;
+    margin-left: 5px;
+    float: left;
+    border: 1px solid black;
+}
+
+.bgImageVersion1 {
+    /* relativ Path with double Quotes */
+    background-image: url("./img/german_flag.jpg");
+}
+
+.bgImageVersion2 {
+    /* relative Path without Quotes */
+    background-image: url(./img/german_flag.jpg);
+}
+
+.bgImageVersion3 {
+    /* relative Path with . for css dir */
+    background-image: url("../css_framework_abc/img/german_flag.jpg");
+}
+
+.bgImageVersion4 {
+    /* absolut project path, bad but possible */
+    background-image: url("/demo/css/css_framework_abc/img/german_flag.jpg");
+}
