@@ -11,9 +11,9 @@
 
   ----------------------------------------------------------------------------*/
 
-require_once("../CachingProxy.class.php");
-require_once("../CssCachingProxy.class.php");
-require_once("../JsCachingProxy.class.php");
+require_once("../src/CachingProxy.class.php");
+require_once("../src/CssCachingProxy.class.php");
+require_once("../src/JsCachingProxy.class.php");
 ?>
 <!DOCTYPE HTML>
 <html>
