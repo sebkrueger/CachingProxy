@@ -2,23 +2,25 @@
 /*------------------------------------------------------------------------------
 
    Project  : CachingProxy
-   Filename : JsCachingProxy.class.php
-   Version  : 1.0
-   Autor    : Sebastian Krüger
+   Filename : src/JsCachingProxy.class.php
+   Autor    : (c) Sebastian Krüger <krueger@secra.de>
    Date     : 15.09.2013
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
 
    Description: extends the CachingProxy with js
 
   ----------------------------------------------------------------------------*/
 
-namespace CachingProxy;
+namespace secra\CachingProxy;
 
 class JsCachingProxy extends CachingProxy {
 
     public function __construct() {
-        // Setzten des Pfad zum CSS Dateien Cachen
+        // set default path to cache .js files, base is webserver document root path
         $this->setCachepath("/demo/js/cache/");
-        // Dateiendung für die zuammengefassten Cache Dateien
+        // Dateiendung für die zusammengefassten Cache Dateien
         $this->cachefileextension=".js";
     }
 

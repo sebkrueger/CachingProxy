@@ -3,9 +3,11 @@
 
    Project  : CachingProxy
    Filename : demo/index.php
-   Version  : 1.0
-   Autor    : Sebastian Krüger
+   Autor    : (c) Sebastian Krüger <krueger@secra.de>
    Date     : 15.09.2013
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
 
    Description: demoversion for caching proxy
 
@@ -22,7 +24,7 @@ require_once("../src/JsCachingProxy.class.php");
     <meta charset="utf-8">
     <?php
     // init the CSS Caching object
-    $css_cache = new \CachingProxy\CssCachingProxy();
+    $css_cache = new \secra\CachingProxy\CssCachingProxy();
 
     // In debug mode every file will insert in a single tag with modification
     $css_cache->EnableDebugmode();
@@ -36,7 +38,7 @@ require_once("../src/JsCachingProxy.class.php");
     echo $css_cache->getIncludeHtml();
 
     // init the js Caching object
-    $js_cache = new \CachingProxy\JsCachingProxy();
+    $js_cache = new \secra\CachingProxy\JsCachingProxy();
 
     // Enable the Debugmode for js files
     $js_cache->EnableDebugmode();

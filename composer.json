@@ -1,0 +1,22 @@
+{
+    "name": "secra/CachingProxy",
+    "type": "library",
+    "description": "Converts a bunch of .css/.js files to one minified file",
+    "keywords": ["caching", "gzip" , "css", "js", "packer", "pack", "packing"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sebastian Krüger",
+            "email": "krueger@secra.de",
+            "homepage": "http://www.secra.de"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "secra\\CachingProxy\\": "src"
+        }
+    }
+}

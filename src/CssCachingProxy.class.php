@@ -2,21 +2,23 @@
 /*------------------------------------------------------------------------------
 
    Project  : CachingProxy
-   Filename : CssCachingProxy.class.php
-   Version  : 1.0
-   Autor    : Sebastian Krüger
+   Filename : src/CssCachingProxy.class.php
+   Autor    : (c) Sebastian Krüger <krueger@secra.de>
    Date     : 15.09.2013
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
 
    Description: extends the CachingProxy with css
 
   ----------------------------------------------------------------------------*/
 
-namespace CachingProxy;
+namespace secra\CachingProxy;
 
 class CssCachingProxy extends CachingProxy {
 
     public function __construct() {
-        // set path to css cache folder
+        // set default path to cache .css files, base is webserver document root path
         $this->setCachepath("/demo/css/cache/");
         // define ending for css files
         $this->cachefileextension=".css";

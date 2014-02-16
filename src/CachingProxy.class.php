@@ -2,10 +2,12 @@
 /*------------------------------------------------------------------------------
 
    Project  : CachingProxy
-   Filename : CachingProxy.class.php
-   Version  : 1.0
-   Autor    : Sebastian Krüger
+   Filename : src/CachingProxy.class.php
+   Autor    : (c) Sebastian Krüger <krueger@secra.de>
    Date     : 15.09.2013
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
 
    Description: Basisklasse die einen Mechanismus zu Cachen von Dateien auf dem
                 Server implemeniert. Anwendung ist später für CSS und Javscript
@@ -19,9 +21,9 @@
 
   ----------------------------------------------------------------------------*/
 
-namespace CachingProxy;
+namespace secra\CachingProxy;
 
-class CachingProxy {
+abstract class CachingProxy {
     protected $internfilelist = array();        // array with files that should be cached later
     protected $externfilelist = array();        // array with extern files
 
@@ -36,6 +38,9 @@ class CachingProxy {
         // Man kann einen beliebigen Cachingpfad vom Rootpath des Projektes aus setzen
         return $this->setCachepath($cachingpath);
     }
+
+    // Implement this to get the specific html head code
+    abstract public function getIncludeHtml();
 
     public function addFile($filename) {
         // Fügt eine Datei zur Cacheliste hinzu, es wird hier schon nach internen oder
@@ -88,7 +93,7 @@ class CachingProxy {
             foreach($this->internfilelist AS $file) {
                 // strip the absolut dir for inclusion and put it to the list
                 // Use the $ as reg_exp separater because don't expect it in path
-                $returnfilelist[] = preg_replace("$^".(__DIR__)."$","",$file);
+                $returnfilelist[] = preg_replace("$^".($_SERVER["DOCUMENT_ROOT"])."$","",$file);
             }
         }
 
@@ -126,7 +131,7 @@ class CachingProxy {
             $cachepath = "/".$cachepath;
         }
 
-        // Cachepfad absolut machen
+        // make cachepath absolut
         $absolutcachepath = self::makeAbsolutPath($cachepath);
 
         // Checken ob der Pfad auch exitiert evtl. false/null wegen makeAbsolutPath()!!
@@ -135,37 +140,37 @@ class CachingProxy {
             $this->relcachepath=$cachepath;
             return true;
         } else {
-            // Verzeichnis exitiert nicht
+            // folder did't exist
             return false;
         }
     }
 
     protected function makeAbsolutPath($path) {
-        // Macht aus einem relativen Pfad zum Projekt Root einen
-        // absoluten Pfad auf dem Verzeichnis
+        // Convert relativ path to webserver root path to
+        // absolut path from root in file system
 
-        // Hinweis, wenn die Datei/Verzeichnis nicht existiert liefert realpath false
-        return realpath((__DIR__)."/".$path);
+        // Note, if file/folder don't exists, realpath will return false
+        return realpath($_SERVER["DOCUMENT_ROOT"]."/".$path);
     }
 
     protected function makeMinifiPath($path) {
         // Prüft ob eine minifizierte Version der Datei existiert,
         // falls ja wird diese benutzt
 
-        // Pfad an den Punkten aufsplitten
+        // split path at the dots
         $splitpath = explode(".",$path);
 
         $newfragments = array();
 
         for($i=0;$i<count($splitpath);$i++) {
             if($i==(count($splitpath)-1)) {
-                // Vor dem letzten Element ein "min" einfügen
+                // insert "min" bevor last element (file ending)
                 $newfragments[]="min";
             }
             $newfragments[]=$splitpath[$i];
         }
 
-        // Puzzelteile wieder zusammenfügen
+        // now put the puzzelpices together
         return implode(".",$newfragments);
     }
 
