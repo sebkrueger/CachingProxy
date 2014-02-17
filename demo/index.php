@@ -13,9 +13,8 @@
 
   ----------------------------------------------------------------------------*/
 
-require_once("../src/CachingProxy.class.php");
-require_once("../src/CssCachingProxy.class.php");
-require_once("../src/JsCachingProxy.class.php");
+require_once("../vendor/autoload.php");
+
 ?>
 <!DOCTYPE HTML>
 <html>

@@ -2,37 +2,37 @@
 /*------------------------------------------------------------------------------
 
    Project  : CachingProxy
-   Filename : src/CssCachingProxy.class.php
+   Filename : src/JsCachingProxy.php
    Autor    : (c) Sebastian Krüger <krueger@secra.de>
    Date     : 15.09.2013
 
    For the full copyright and license information, please view the LICENSE
    file that was distributed with this source code.
 
-   Description: extends the CachingProxy with css
+   Description: extends the CachingProxy with js
 
   ----------------------------------------------------------------------------*/
 
 namespace secra\CachingProxy;
 
-class CssCachingProxy extends CachingProxy {
+class JsCachingProxy extends CachingProxy {
 
     public function __construct() {
-        // set default path to cache .css files, base is webserver document root path
-        $this->setCachepath("/demo/css/cache/");
-        // define ending for css files
-        $this->cachefileextension=".css";
+        // set default path to cache .js files, base is webserver document root path
+        $this->setCachepath("/demo/js/cache/");
+        // Dateiendung für die zusammengefassten Cache Dateien
+        $this->cachefileextension=".js";
     }
 
     public function getIncludeHtml() {
-        // return include html code
+        // Gibt den Einbindungscode für die Dateien zurück
         $filelist = $this->getIncludeFileset();
 
         $htmlreturn = "";
 
         foreach($filelist AS $file) {
-            $htmlreturn .= "<link rel=\"stylesheet\" type=\"text/css\" ";
-            $htmlreturn .= "href=\"".$file."\" />\n";
+            $htmlreturn .= "<script type=\"text/javascript\" ";
+            $htmlreturn .= "src=\"".$file."\"></script>\n";
         }
 
         return $htmlreturn;

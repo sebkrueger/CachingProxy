@@ -2,7 +2,7 @@
 /*------------------------------------------------------------------------------
 
    Project  : CachingProxy
-   Filename : src/CachingProxy.class.php
+   Filename : src/CachingProxy.php
    Autor    : (c) Sebastian Krüger <krueger@secra.de>
    Date     : 15.09.2013
 

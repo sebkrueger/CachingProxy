@@ -1,8 +1,11 @@
-#do not ignore a gitignore file
+# do not ignore a gitignore file
 !.gitignore
 
-#ignore idea files created by phpstorm
+# ignore idea files created by phpstorm
 .idea/*
-
-#ingnore Atlassin ide Files everyone has an own connection
 atlassian-ide-plugin.xml
+
+# Composer and Unitteststuff
+vendor/*
+composer.lock
+phpunit.xml
