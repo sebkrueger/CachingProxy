@@ -46,7 +46,7 @@ require_once("../vendor/autoload.php");
 
     // print out the html head include for javascript
     echo $js_cache->getIncludeHtml();
-    ?>
+?>
 </head>
 <body>
 <p>CachingProxy Demopage</p>

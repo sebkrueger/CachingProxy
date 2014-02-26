@@ -24,15 +24,15 @@
 namespace secra\CachingProxy;
 
 abstract class CachingProxy {
-    protected $internfilelist = array();        // array with files that should be cached later
-    protected $externfilelist = array();        // array with extern files
+    private $internfilelist = array();        // array with files that should be cached later
+    private $externfilelist = array();        // array with extern files
 
-    protected $cachepath = null;                // path were cached files should be placed
-    protected $relcachepath = null;             // relative cachepath for scripttags in html
-    protected $cachefileextension = null;       // fileending of cached files
+    protected  $cachepath = null;             // path were cached files should be placed
+    protected $relcachepath = null;           // relative cachepath for scripttags in html
+    protected $cachefileextension = null;     // fileending of cached files
 
     // In debugmode every file will be include in a single tag without modification
-    protected $debugmode = false;
+    private $debugmode = false;
 
     public function __construct($cachingpath) {
         // Man kann einen beliebigen Cachingpfad vom Rootpath des Projektes aus setzen
@@ -145,7 +145,7 @@ abstract class CachingProxy {
         }
     }
 
-    protected function makeAbsolutPath($path) {
+    private  function makeAbsolutPath($path) {
         // Convert relativ path to webserver root path to
         // absolut path from root in file system
 
@@ -153,7 +153,7 @@ abstract class CachingProxy {
         return realpath($_SERVER["DOCUMENT_ROOT"]."/".$path);
     }
 
-    protected function makeMinifiPath($path) {
+    private function makeMinifiPath($path) {
         // Prüft ob eine minifizierte Version der Datei existiert,
         // falls ja wird diese benutzt
 
@@ -184,8 +184,9 @@ abstract class CachingProxy {
 
         $absolutcachepath = $this->cachepath.$cachefile;
 
-        if(!file_exists($absolutcachepath)) {
+        if($cachefilesignature!=null && !file_exists($absolutcachepath)) {
             // Die Datei wurde noch nie in den Cache geschrieben, jetzt erzeugen -> the hard way!
+            // and cachefilesignature has to be differnet from null
 
             // Dateien zusammenfügen
             foreach($this->internfilelist as $file) {
@@ -224,8 +225,15 @@ abstract class CachingProxy {
             $tempstingbase .= "(".filemtime($file).") ";
         }
 
-        // simple md5 should do, no secure risk
-        return md5($tempstingbase);
+        // when there are no intern files, function return null
+        $signature=null;
+
+        if(count($this->internfilelist)>0) {
+            // there are intern files - simple md5 should do, no secure risk
+            $signature = md5($tempstingbase);
+        }
+
+        return $signature;
     }
 
     // TODO: build cleanup function for old cached files
