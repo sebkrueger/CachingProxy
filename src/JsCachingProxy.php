@@ -15,22 +15,24 @@
 
 namespace secra\CachingProxy;
 
-class JsCachingProxy extends CachingProxy {
-
-    public function __construct() {
+class JsCachingProxy extends AbstractCachingProxy
+{
+    public function __construct()
+    {
         // set default path to cache .js files, base is webserver document root path
         $this->setCachepath("/demo/js/cache/");
         // Dateiendung für die zusammengefassten Cache Dateien
         $this->cachefileextension=".js";
     }
 
-    public function getIncludeHtml() {
+    public function getIncludeHtml()
+    {
         // Gibt den Einbindungscode für die Dateien zurück
         $filelist = $this->getIncludeFileset();
 
         $htmlreturn = "";
 
-        foreach($filelist AS $file) {
+        foreach ($filelist as $file) {
             $htmlreturn .= "<script type=\"text/javascript\" ";
             $htmlreturn .= "src=\"".$file."\"></script>\n";
         }

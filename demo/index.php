@@ -26,7 +26,7 @@ require_once("../vendor/autoload.php");
     $css_cache = new \secra\CachingProxy\CssCachingProxy();
 
     // In debug mode every file will insert in a single tag with modification
-    $css_cache->EnableDebugmode();
+    $css_cache->enableDebugmode();
 
     // Add some files
     $css_cache->addFile("/demo/css/main.css");
@@ -40,7 +40,7 @@ require_once("../vendor/autoload.php");
     $js_cache = new \secra\CachingProxy\JsCachingProxy();
 
     // Enable the Debugmode for js files
-    $js_cache->EnableDebugmode();
+    $js_cache->enableDebugmode();
 
     $js_cache->addFile("/demo/js/button.js");
 

@@ -15,22 +15,24 @@
 
 namespace secra\CachingProxy;
 
-class CssCachingProxy extends CachingProxy {
-
-    public function __construct() {
+class CssCachingProxy extends AbstractCachingProxy
+{
+    public function __construct()
+    {
         // set default path to cache .css files, base is webserver document root path
         $this->setCachepath("/demo/css/cache/");
         // define ending for css files
         $this->cachefileextension=".css";
     }
 
-    public function getIncludeHtml() {
+    public function getIncludeHtml()
+    {
         // return include html code
         $filelist = $this->getIncludeFileset();
 
         $htmlreturn = "";
 
-        foreach($filelist AS $file) {
+        foreach ($filelist as $file) {
             $htmlreturn .= "<link rel=\"stylesheet\" type=\"text/css\" ";
             $htmlreturn .= "href=\"".$file."\" />\n";
         }
