@@ -68,12 +68,12 @@ abstract class AbstractCachingProxy
     {
         // Fügt eine Datei zur Cacheliste hinzu, es wird hier schon nach internen oder
         // Externen Dateien unterschieden beginnen z.B. mit http, https, ftp und dann ://
-        if (!preg_match("#^[a-z]{3,5}://#i",$filename)) {
+        if (!preg_match("#^[a-z]{3,5}://#i", $filename)) {
             // Internes File, Arbeit für den Cache
             $absolutfilename = self::makeAbsolutPath($filename);
             if (!file_exists($absolutfilename)) {
-               // Die Datei existiert nicht!
-               return false;
+                // Die Datei existiert nicht!
+                return false;
             }
 
             // Falls möglich Minifizierte Version der Datei benutzen
@@ -231,11 +231,11 @@ abstract class AbstractCachingProxy
         // falls ja wird diese benutzt
 
         // split path at the dots
-        $splitpath = explode(".",$path);
+        $splitpath = explode(".", $path);
 
         $newfragments = array();
 
-        for ($i=0;$i<count($splitpath);$i++) {
+        for ($i=0; $i<count($splitpath); $i++) {
             if ($i==(count($splitpath)-1)) {
                 // insert "min" bevor last element (file ending)
                 $newfragments[]="min";
