@@ -38,7 +38,7 @@ abstract class AbstractCachingProxy
     /**
      * Start with setting the specific cachepath from project root
      *
-     * @param  $cachingpath string    path to cachefile location based on project root path
+     * @param  string $cachingpath     path to cachefile location based on project root path
      */
     public function __construct($cachingpath)
     {
@@ -60,7 +60,7 @@ abstract class AbstractCachingProxy
      * Add intern, project relative files or extern files, on different domain
      * to the filelist
      *
-     * @param  $filename string    the filepath/URL to script
+     * @param  string $filename     the filepath/URL to script
      *
      * @return boolean             false on error
      */
@@ -98,7 +98,7 @@ abstract class AbstractCachingProxy
      * First deliver all intern then all extern files
      * the user can decide by himself, what he would like to do with the list
      *
-     * @return array       list of files
+     * @return string[]       list of files
      */
     public function getIncludeFileset()
     {
@@ -165,7 +165,7 @@ abstract class AbstractCachingProxy
      *
      * The cachingpath must be set from docroot of project
      *
-     * @param $cachepath string    path to cachefilefolder
+     * @param string $cachepath     path to cachefilefolder
      *
      * @return boolean       true if cachefolder exist
      */
@@ -205,7 +205,7 @@ abstract class AbstractCachingProxy
      * Convert relativ path webserver root path to
      * absolut path from root in file system
      *
-     * @param $path string    relative path to webserver root
+     * @param string $path     relative path to webserver root
      *
      * @return string         absolut path to webserver root
      */
@@ -221,7 +221,7 @@ abstract class AbstractCachingProxy
      * Check if minified version of file exits
      * is exits use it
      *
-     * @param $path string   path to notminified version of file
+     * @param string $path    path to notminified version of file
      *
      * @return string       path to minified version of file
      */
@@ -244,7 +244,7 @@ abstract class AbstractCachingProxy
         }
 
         // now put the puzzelpices together
-        return implode(".",$newfragments);
+        return implode(".", $newfragments);
     }
 
     /**
@@ -254,7 +254,7 @@ abstract class AbstractCachingProxy
      * if not convert all intern files to one file and
      * write it to one cache
      *
-     * @return string       path to cached file
+     * @return string|false       path to cached file or false on error
      */
     private function getCacheFile()
     {
@@ -280,7 +280,7 @@ abstract class AbstractCachingProxy
                 $filecontent .= "\n";
 
                 // Beim schreiben Dateiinhalt anfügen und Datei zum Schreiben von anderen locken!
-                if (file_put_contents($absolutcachepath, $filecontent , FILE_APPEND | LOCK_EX)===false) {
+                if (file_put_contents($absolutcachepath, $filecontent, FILE_APPEND | LOCK_EX)===false) {
                     // Beim Schreiben der Datei ist was falsch gelaufen
                     // Cachedatei löschen und hoffen beim nächsten mal klappt es mit dem Schreiben
                     unlink($absolutcachepath);
@@ -304,7 +304,7 @@ abstract class AbstractCachingProxy
      * base parameters are filename and file modfied date
      * hash function is md5
      *
-     * @return string       signature
+     * @return string|null       signature
      */
     private function calculateFileSignature()
     {

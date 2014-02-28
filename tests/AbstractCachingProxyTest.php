@@ -21,17 +21,17 @@ namespace secra\CachingProxy\Tests;
  * @copyright 2014 Sebastian Krüger
  * @license http://www.opensource.org/licenses/MIT The MIT License
  */
-class CachingProxyTest extends \PHPUnit_Framework_TestCase {
+class AbstractCachingProxyTest extends \PHPUnit_Framework_TestCase {
     private $cachingproxystub;
 
     public function setUp() {
         // instanciate teststub class for abstract class second param are construtor parmeters
-        $this->cachingproxystub = $this->getMockForAbstractClass('\secra\CachingProxy\CachingProxy',array("/null"));
+        $this->cachingproxystub = $this->getMockForAbstractClass('\secra\CachingProxy\AbstractCachingProxy',array("/null"));
     }
 
     /**
      * @test
-     * @covers secra\Cachingproxy\CachingProxy::addExternFile()
+     * @covers secra\Cachingproxy\AbstractCachingProxy::addFile()
      */
     public function addExternFile() {
         // Add Files with different protocol definations
