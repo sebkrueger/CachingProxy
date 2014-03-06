@@ -40,8 +40,20 @@ class CssCachingProxyTest extends \PHPUnit_Framework_TestCase
         // See if we get html file
         $testHtml = $this->cachingproxy->getIncludeHtml();
 
-        // Empty Style Tag html
-        $styleTagHtml = '<link rel="stylesheet" type="text/css" href=".css" />'."\n";
+        // First Test nothing to get out
+        $this->assertEquals("", $testHtml);
+
+        // Extern Test URL
+        $externUrl = "http://www.example.com/test.css";
+
+        //  Style Tag html
+        $styleTagHtml = '<link rel="stylesheet" type="text/css" href="'.$externUrl.'" />'."\n";
+
+        // Add the extern File to List
+        $this->cachingproxy->addFile($externUrl);
+
+        // get the extended scripttag
+        $testHtml = $this->cachingproxy->getIncludeHtml();
 
         $this->assertStringEndsWith("\n", $testHtml);
         $this->assertEquals($styleTagHtml, $testHtml);

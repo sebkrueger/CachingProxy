@@ -68,7 +68,8 @@ abstract class AbstractCachingProxy
     {
         // Fügt eine Datei zur Cacheliste hinzu, es wird hier schon nach internen oder
         // Externen Dateien unterschieden beginnen z.B. mit http, https, ftp und dann ://
-        if (!preg_match("#^[a-z]{3,5}://#i", $filename)) {
+        // or protocoll less // links
+        if (!preg_match("#^[a-z]{3,5}://#i", $filename) && !preg_match("#^//#i", $filename)) {
             // Internes File, Arbeit für den Cache
             $absolutfilename = self::makeAbsolutPath($filename);
             if (!file_exists($absolutfilename)) {
@@ -118,7 +119,10 @@ abstract class AbstractCachingProxy
 
         if ($this->debugmode===false) {
             // put intern files into the cached version
-            $returnfilelist[] = $oneModifiedCacheFile;
+            if($oneModifiedCacheFile!=null) {
+                // only replace the intern file list, if theres intern files and the modified cache file exits
+                $returnfilelist[] = $oneModifiedCacheFile;
+            }
         } else {
             // we are in debugmode!
             // only put the internfiles to the list of returned files
@@ -254,7 +258,7 @@ abstract class AbstractCachingProxy
      * if not convert all intern files to one file and
      * write it to one cache
      *
-     * @return string|false       path to cached file or false on error
+     * @return string|false|null       path to cached file or null if no intern files and false on error
      */
     private function getCacheFile()
     {
@@ -267,13 +271,16 @@ abstract class AbstractCachingProxy
 
         $absolutcachepath = $this->cachepath.$cachefile;
 
+        // Set §return value null in case there are no internfiles
+        $returnfile = null;
+
         if ($cachefilesignature!=null && !file_exists($absolutcachepath)) {
             // Die Datei wurde noch nie in den Cache geschrieben, jetzt erzeugen -> the hard way!
             // and cachefilesignature has to be differnet from null
 
             // Dateien zusammenfügen
             foreach ($this->internfilelist as $file) {
-                // Inhalt der aktuellen CSS Datei einlesen
+                // Inhalt der aktuellen Datei einlesen
                 $filecontent = file_get_contents($file);
 
                 // Um Sicherzugehen noch einen Zeilewechsel anfügen
@@ -292,9 +299,11 @@ abstract class AbstractCachingProxy
 
             // jetzt noch gzip Version der Datei erzeugen, wenn wir schon mal dabei sind
             file_put_contents($absolutcachepath.".gz", gzencode(file_get_contents($absolutcachepath), 9));
+
+            $returnfile = $this->relcachepath.$cachefile;
         }
 
-        return $this->relcachepath.$cachefile;
+        return $returnfile;
     }
 
     /**

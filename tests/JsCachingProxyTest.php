@@ -40,8 +40,20 @@ class JsCachingProxyTest extends \PHPUnit_Framework_TestCase
         // See if we get html file
         $testHtml = $this->cachingproxy->getIncludeHtml();
 
-        // Empty Script Tag html
-        $scriptTagHtml = '<script type="text/javascript" src=".js"></script>'."\n";
+        // First Test nothing to get out
+        $this->assertEquals("", $testHtml);
+
+        // Extern Test URL
+        $externUrl = "http://www.example.com/test.js";
+
+        //  Style Tag html
+        $scriptTagHtml = '<script type="text/javascript" src="'.$externUrl.'"></script>'."\n";
+
+        // Add the extern File to List
+        $this->cachingproxy->addFile($externUrl);
+
+        // get the extended scripttag
+        $testHtml = $this->cachingproxy->getIncludeHtml();
 
         $this->assertStringEndsWith("\n", $testHtml);
         $this->assertEquals($scriptTagHtml, $testHtml);
