@@ -119,7 +119,7 @@ abstract class AbstractCachingProxy
 
         if ($this->debugmode===false) {
             // put intern files into the cached version
-            if($oneModifiedCacheFile!=null) {
+            if ($oneModifiedCacheFile!=null) {
                 // only replace the intern file list, if theres intern files and the modified cache file exits
                 $returnfilelist[] = $oneModifiedCacheFile;
             }

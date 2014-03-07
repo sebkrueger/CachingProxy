@@ -24,11 +24,20 @@ use \secra\CachingProxy\CssCachingProxy;
 class CssCachingProxyTest extends \PHPUnit_Framework_TestCase
 {
     private $cachingproxy;
+    private $testfilestream;         // vfs Teststream for fileoperation tests
+    private $testfilestreamUrl;      // vfs Teststream to place the folders
 
     public function setUp()
     {
         // instanciate testclass
         $this->cachingproxy = new CssCachingProxy();
+
+        /*// Set Up Teststream
+        $this->testfilestream = vfsStream::setup('test');
+        $this->testfilestreamUrl = vfsStream::url('test');
+
+        // Create Test .css file no.1
+        $handle = fopen($filename, "a"); */
     }
 
     /**
