@@ -11,7 +11,10 @@
 
 namespace secra\CachingProxy\Tests;
 
-use \secra\CachingProxy\CssCachingProxy;
+// include Testclass
+require_once 'CssCachingProxyTestClass.php';
+
+use \secra\CachingProxy\CssCachingProxyTestClass;
 /**
  * CachingProxyTest
  *
@@ -24,20 +27,24 @@ use \secra\CachingProxy\CssCachingProxy;
 class CssCachingProxyTest extends \PHPUnit_Framework_TestCase
 {
     private $cachingproxy;
-    private $testfilestream;         // vfs Teststream for fileoperation tests
-    private $testfilestreamUrl;      // vfs Teststream to place the folders
 
     public function setUp()
     {
         // instanciate testclass
-        $this->cachingproxy = new CssCachingProxy();
+        $this->cachingproxy = new CssCachingProxyTestClass();
+    }
 
-        /*// Set Up Teststream
-        $this->testfilestream = vfsStream::setup('test');
-        $this->testfilestreamUrl = vfsStream::url('test');
+    /**
+     * @test
+     * @covers secra\Cachingproxy\CssCachingProxy::__construct()
+     */
+    public function checkConstructor()
+    {
+        // See if we get the right Caching Path
+        $this->assertEquals("/demo/css/cache/", $this->cachingproxy->getCachepath());
 
-        // Create Test .css file no.1
-        $handle = fopen($filename, "a"); */
+        // See if the extension match
+        $this->assertEquals(".css", $this->cachingproxy->getCachefileExtension());
     }
 
     /**
@@ -46,6 +53,9 @@ class CssCachingProxyTest extends \PHPUnit_Framework_TestCase
      */
     public function getIncludeHtml()
     {
+
+        /// TODO: Now test baseclass functions, try to avoid this
+
         // See if we get html file
         $testHtml = $this->cachingproxy->getIncludeHtml();
 
