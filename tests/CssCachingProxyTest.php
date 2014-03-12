@@ -38,7 +38,7 @@ class CssCachingProxyTest extends \PHPUnit_Framework_TestCase
      * @test
      * @covers secra\Cachingproxy\CssCachingProxy::__construct()
      */
-    public function checkConstructor()
+    public function testConstructor()
     {
         // See if we get the right Caching Path
         $this->assertEquals("/demo/css/cache/", $this->cachingproxy->getCachepath());
@@ -51,7 +51,7 @@ class CssCachingProxyTest extends \PHPUnit_Framework_TestCase
      * @test
      * @covers secra\Cachingproxy\CssCachingProxy::getIncludeHtml()
      */
-    public function getIncludeHtml()
+    public function testGetIncludeHtml()
     {
 
         /// TODO: Now test baseclass functions, try to avoid this

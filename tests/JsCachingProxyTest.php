@@ -38,7 +38,7 @@ class JsCachingProxyTest extends \PHPUnit_Framework_TestCase
      * @test
      * @covers secra\Cachingproxy\JsCachingProxy::__construct()
      */
-    public function checkConstructor()
+    public function testConstructor()
     {
         // See if we get the right Caching Path
         $this->assertEquals("/demo/js/cache/", $this->cachingproxy->getCachepath());
@@ -51,7 +51,7 @@ class JsCachingProxyTest extends \PHPUnit_Framework_TestCase
      * @test
      * @covers secra\Cachingproxy\JsCachingProxy::getIncludeHtml()
      */
-    public function getIncludeHtml()
+    public function testGetIncludeHtml()
     {
         // See if we get html file
         $testHtml = $this->cachingproxy->getIncludeHtml();
