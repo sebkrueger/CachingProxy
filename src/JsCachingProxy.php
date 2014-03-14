@@ -17,14 +17,28 @@ namespace secra\CachingProxy;
 
 class JsCachingProxy extends AbstractCachingProxy
 {
-    public function __construct()
+    /**
+     * Start with setting the specific cachepath from project root
+     *
+     * @param  string $webserverRootPath     absolut path to webserver root
+     * @param  string $cachePath             path to cachefile location based on webserver root path
+     *
+     */
+    public function __construct($webserverRootPath, $cachePath)
     {
-        // set default path to cache .js files, base is webserver document root path
-        $this->setCachepath("/demo/js/cache/");
-        // Dateiendung für die zusammengefassten Cache Dateien
+        $this->setWebserverRootPath($webserverRootPath);
+        $this->setCachepath($cachePath);
+
+        // define ending for packed javascript files
         $this->cachefileextension=".js";
     }
 
+    /**
+     * Delivers the set of html tags for webpage inclusion
+     *
+     * @return string   the html script tags
+     *
+     */
     public function getIncludeHtml()
     {
         // Gibt den Einbindungscode für die Dateien zurück

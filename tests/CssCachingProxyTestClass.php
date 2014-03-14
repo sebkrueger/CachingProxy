@@ -18,18 +18,7 @@ namespace secra\CachingProxy;
 
 class CssCachingProxyTestClass extends CssCachingProxy
 {
-    protected $cachepath = null;              // path were cached files should be placed
     protected $cachefileextension = null;     // fileending of cached files
-
-    protected function setCachepath($cachepath)
-    {
-       $this->cachepath=$cachepath;
-    }
-
-    public function getCachepath()
-    {
-        return $this->cachepath;
-    }
 
     public function getCachefileExtension()
     {

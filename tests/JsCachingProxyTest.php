@@ -14,7 +14,7 @@ namespace secra\CachingProxy\Tests;
 // include Testclass
 require_once 'JsCachingProxyTestClass.php';
 
-use \secra\CachingProxy\JsCachingProxyTestClass;
+use secra\CachingProxy\JsCachingProxyTestClass;
 /**
  * CachingProxyTest
  *
@@ -31,7 +31,7 @@ class JsCachingProxyTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         // instanciate testclass
-        $this->cachingproxy = new JsCachingProxyTestClass();
+        $this->cachingproxy = new JsCachingProxyTestClass("/","js/cache");
     }
 
     /**
@@ -40,9 +40,6 @@ class JsCachingProxyTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructor()
     {
-        // See if we get the right Caching Path
-        $this->assertEquals("/demo/js/cache/", $this->cachingproxy->getCachepath());
-
         // See if the extension match
         $this->assertEquals(".js", $this->cachingproxy->getCachefileExtension());
     }

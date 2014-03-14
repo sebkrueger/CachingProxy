@@ -23,7 +23,8 @@ require_once("../vendor/autoload.php");
     <meta charset="utf-8">
     <?php
     // init the CSS Caching object
-    $css_cache = new \secra\CachingProxy\CssCachingProxy();
+    // set webserverrootpath and the cachingpath relative from webserver root
+    $css_cache = new \secra\CachingProxy\CssCachingProxy($_SERVER["DOCUMENT_ROOT"], "/demo/css/cache");
 
     // In debug mode every file will insert in a single tag with modification
     $css_cache->enableDebugmode();
@@ -37,7 +38,8 @@ require_once("../vendor/autoload.php");
     echo $css_cache->getIncludeHtml();
 
     // init the js Caching object
-    $js_cache = new \secra\CachingProxy\JsCachingProxy();
+    // set webserverrootpath and the cachingpath relative from webserver root
+    $js_cache = new \secra\CachingProxy\JsCachingProxy($_SERVER["DOCUMENT_ROOT"], "/demo/js/cache");
 
     // Enable the Debugmode for js files
     $js_cache->enableDebugmode();

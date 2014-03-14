@@ -24,7 +24,9 @@ Usage
 For .css files use the following code in the head of your webpage.
 The usage for .js should be obvious.
 
-    $css_cache = new \secra\CachingProxy\CssCachingProxy();
+    // set the path to you webserver document root most of the time $_SERVER["DOCUMENT_ROOT"]
+    // and in 2. parameter the path, were you would like to store your cached files absolut from document root
+    $css_cache = new \secra\CachingProxy\CssCachingProxy($_SERVER["DOCUMENT_ROOT"], "/path/to/css/cache");
 
     // Add some files
     $css_cache->addFile("/path/to/file1.css");

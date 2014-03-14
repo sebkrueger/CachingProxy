@@ -28,7 +28,8 @@ abstract class AbstractCachingProxy
     private $internfilelist = array();        // array with files that should be cached later
     private $externfilelist = array();        // array with extern files
 
-    protected $cachepath = null;             // path were cached files should be placed
+    protected $docrootpath = null;            // webserver document root path
+    protected $cachepath = null;              // absolut path on webserver were cached files should be placed
     protected $relcachepath = null;           // relative cachepath for scripttags in html
     protected $cachefileextension = null;     // fileending of cached files
 
@@ -36,14 +37,12 @@ abstract class AbstractCachingProxy
     private $debugmode = false;
 
     /**
-     * Start with setting the specific cachepath from project root
+     * Implement later to set the document rootpath and cachepath
      *
-     * @param  string $cachingpath     path to cachefile location based on project root path
+     * @param  string $webserverRootPath     absolut path to webserver root
+     * @param  string $cachePath             path to cachefile location based on webserver root path
      */
-    public function __construct($cachingpath)
-    {
-        return $this->setCachepath($cachingpath);
-    }
+    abstract public function __construct($webserverRootPath, $cachePath);
 
     /**
      * Implement later html code return
@@ -129,7 +128,7 @@ abstract class AbstractCachingProxy
             foreach ($this->internfilelist as $file) {
                 // strip the absolut dir for inclusion and put it to the list
                 // Use the $ as reg_exp separater because don't expect it in path
-                $returnfilelist[] = preg_replace("$^".($_SERVER["DOCUMENT_ROOT"])."$", "", $file);
+                $returnfilelist[] = "/".preg_replace("$^".($this->docrootpath)."$", "", $file);
             }
         }
 
@@ -165,40 +164,67 @@ abstract class AbstractCachingProxy
     }
 
     /**
+     * Set the relative Cachepath
+     * use simple $_SERVER["DOCUMENT_ROOT"] to set this value
+     *
+     * Set absolut webserver rootpath
+     *
+     * @param string $documentRootPath     path to webserverroot
+     *
+     * @return boolean     false on error
+     */
+    protected function setWebserverRootPath($documentRootPath)
+    {
+        // Reset the documentrootpath
+        $this->docrootpath = null;
+
+        // Add trailing slash if not there
+        if (!preg_match("#".DIRECTORY_SEPARATOR."$#", $documentRootPath)) {
+            $documentRootPath .= DIRECTORY_SEPARATOR;
+        }
+
+        if(file_exists($documentRootPath)) {
+            $this->docrootpath = $documentRootPath;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Set path to cachefile folder
      *
-     * The cachingpath must be set from docroot of project
+     * The cachingpath must be set relativ from docroot of project
      *
      * @param string $cachepath     path to cachefilefolder
      *
-     * @return boolean       true if cachefolder exist
+     * @return boolean              true if cachefolder exist, false if not
      */
     protected function setCachepath($cachepath)
     {
-        // TODO: Check if there's a way to eleminate the absolut paths
-
-        // Prüfen, ob der Pfad auf / endet, falls nicht jetzt hinzufügen
-        if (!preg_match("#/$#", $cachepath)) {
-            $cachepath .= "/";
+        // check if path has trailing slash, if not add now
+        if (!preg_match("#".self::escapedDirectorySeparator()."$#", $cachepath)) {
+            $cachepath .= DIRECTORY_SEPARATOR;
         }
 
-        // Prüfen ob der Pfad mit einem / anfängt jetzt hinzufügen, es sollen alle internen
-        // Dateien später ausgehend vom Webserver Root eingebunden werden, wichtig auch für
-        // über Rewrite eingebunden Dateien
-        if (!preg_match("#^/#", $cachepath)) {
-            $cachepath = "/".$cachepath;
+        // check if path begin with slash, if not add it now because
+        // later every intern files will include absolut to the webserver
+        // root path, also importent, if mode rewrite is in use on the server
+        if (!preg_match("#^".self::escapedDirectorySeparator()."#", $cachepath)) {
+            $cachepath = DIRECTORY_SEPARATOR.$cachepath;
         }
 
-        // make cachepath absolut
+        // try to make cachepath absolut
         $absolutcachepath = self::makeAbsolutPath($cachepath);
 
-        // Checken if path exist could be false/null because the use of makeAbsolutPath()!!
+        // check if path exist could be false/null because the use of makeAbsolutPath()!!
         if (is_dir($absolutcachepath)) {
-            $this->cachepath=$absolutcachepath."/";
+            $this->cachepath=$absolutcachepath.DIRECTORY_SEPARATOR;
             $this->relcachepath=$cachepath;
             return true;
         } else {
             // folder did't exist
+            // TODO: throw next time an error!
             return false;
         }
     }
@@ -216,7 +242,7 @@ abstract class AbstractCachingProxy
     private function makeAbsolutPath($path)
     {
         // Note, if file/folder don't exists, realpath will return false
-        return realpath($_SERVER["DOCUMENT_ROOT"]."/".$path);
+        return realpath($this->docrootpath.$path);
     }
 
     /**
@@ -337,6 +363,25 @@ abstract class AbstractCachingProxy
 
         return $signature;
     }
+
+    /**
+     * on windows based system you get an error when you
+     * try to use the DIRECTORY_SEPARATOR in preg_match
+     * because it escape the preg math ending delimiter
+     * so if nessesary escape the delimiter
+     *
+     * @return string       escaped dir separator
+     */
+    private function escapedDirectorySeparator()
+    {
+        $dirSep = DIRECTORY_SEPARATOR;
+
+        if ($dirSep == '\\') {
+             $dirSep = "\\\\";
+        }
+        return $dirSep;
+    }
+
 
     // TODO: build cleanup function for old cached files
 }

@@ -19,6 +19,15 @@ namespace secra\CachingProxy;
 
 class AbstractCachingProxyTestClass extends AbstractCachingProxy
 {
+    public function __construct($webserverRootPath, $cachePath)
+    {
+        $this->setWebserverRootPath($webserverRootPath);
+        $this->setCachepath($cachePath);
+
+        // define ending for cache files
+        $this->cachefileextension=".test";
+    }
+
     public function getIncludeHtml()
     {
         return "";
