@@ -17,12 +17,28 @@
 
 namespace secra\CachingProxy;
 
+/**
+ * Override realpath() in current namespace for testing
+ *
+ * @param string $path     the file path
+ *
+ * @return string
+ */
+function realpath($path)
+{
+    return $path;
+}
+
 class AbstractCachingProxyTestClass extends AbstractCachingProxy
 {
     public function __construct($webserverRootPath, $cachePath)
     {
-        $this->setWebserverRootPath($webserverRootPath);
-        $this->setCachepath($cachePath);
+        // In Testmode, direkt set the path because we don't test the setting functions
+        // We expect dummy values, if no need to test file systemfuntions
+        // and vfs filetree, if we test filesystem functions
+        $this->docrootpath = $webserverRootPath;
+        $this->cachepath = $webserverRootPath.$cachePath;
+        $this->relcachepath = $cachePath;
 
         // define ending for cache files
         $this->cachefileextension=".test";
@@ -31,5 +47,25 @@ class AbstractCachingProxyTestClass extends AbstractCachingProxy
     public function getIncludeHtml()
     {
         return "";
+    }
+
+    public function getDebugMode()
+    {
+        return $this->debugmode;
+    }
+
+    public function getDocrootpath()
+    {
+        return $this->docrootpath;
+    }
+
+    public function getCachepath()
+    {
+        return $this->cachepath;
+    }
+
+    public function getRelCachepath()
+    {
+        return $this->relcachepath;
     }
 }
