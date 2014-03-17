@@ -204,10 +204,6 @@ abstract class AbstractCachingProxy
      */
     protected function setCachepath($cachepath)
     {
-        // check if path has trailing slash, if not add now
-        if (!preg_match("#/$#", $cachepath)) {
-            $cachepath .= "/";
-        }
 
         // try to make cachepath absolut
         $absolutcachepath = self::makeAbsolutPath($cachepath);
@@ -215,7 +211,17 @@ abstract class AbstractCachingProxy
         // check if path exist could be false/null because the use of makeAbsolutPath()!!
         if (is_dir($absolutcachepath)) {
 
-            $this->cachepath=$absolutcachepath."/";
+            // extra check on trailing slash of $absolutcachepath because of realpath function use
+            if (!preg_match("#/$#", $absolutcachepath)) {
+                $absolutcachepath .= "/";
+            }
+
+            $this->cachepath=$absolutcachepath;
+
+            // check if path has trailing slash, if not add now
+            if (!preg_match("#/$#", $cachepath)) {
+                $cachepath .= "/";
+            }
 
             // check if path begin with slash, if not add it now because
             // later every intern files will include absolut to the webserver
