@@ -61,3 +61,5 @@ require_once("../vendor/autoload.php");
 <div class="bgImage bgImageVersion2"></div>
 <div class="bgImage bgImageVersion3"></div>
 <div class="bgImage bgImageVersion4"></div>
+</body>
+</html>
