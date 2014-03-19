@@ -11,10 +11,7 @@
 
 namespace secra\CachingProxy\Tests;
 
-// include Testclass
-require_once 'CssCachingProxyTestClass.php';
-
-use secra\CachingProxy\CssCachingProxyTestClass;
+use secra\CachingProxy\CssCachingProxy;
 /**
  * CachingProxyTest
  *
@@ -31,17 +28,21 @@ class CssCachingProxyTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         // instanciate testclass
-        $this->cachingproxy = new CssCachingProxyTestClass("/","css/cache");
+        $this->cachingproxy = new CssCachingProxy("/","css/cache");
     }
 
     /**
      * @test
-     * @covers secra\Cachingproxy\CssCachingProxy::__construct()
+     * @covers secra\Cachingproxy\CssCachingProxy::getCacheFileExtension()
      */
-    public function testConstructor()
+    public function testGetCacheFileExtension()
     {
+        // Build reflection of protected function
+        $method = new \ReflectionMethod('\secra\CachingProxy\CssCachingProxy', 'getCacheFileExtension');
+        $method->setAccessible(true);
+
         // See if the extension match
-        $this->assertEquals(".css", $this->cachingproxy->getCachefileExtension());
+        $this->assertEquals(".css", $method->invoke($this->cachingproxy));
     }
 
     /**

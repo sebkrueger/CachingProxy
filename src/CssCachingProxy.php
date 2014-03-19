@@ -18,22 +18,6 @@ namespace secra\CachingProxy;
 class CssCachingProxy extends AbstractCachingProxy
 {
     /**
-     * Start with setting the specific cachepath from project root
-     *
-     * @param  string $webserverRootPath     absolut path to webserver root
-     * @param  string $cachePath             path to cachefile location based on webserver root path
-     *
-     */
-    public function __construct($webserverRootPath, $cachePath)
-    {
-        $this->setWebserverRootPath($webserverRootPath);
-        $this->setCachepath($cachePath);
-
-        // define ending for css files
-        $this->cachefileextension=".css";
-    }
-
-    /**
      * Delivers the set of html tags for webpage inclusion
      *
      * @return string   the html .css link tags
@@ -52,5 +36,17 @@ class CssCachingProxy extends AbstractCachingProxy
         }
 
         return $htmlreturn;
+    }
+
+    /**
+     * Delivers extension for cached files
+     *
+     * @return string   file extension
+     *
+     */
+    protected function getCacheFileExtension()
+    {
+        // return Extension of css files
+        return '.css';
     }
 }

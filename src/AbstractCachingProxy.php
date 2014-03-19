@@ -31,7 +31,6 @@ abstract class AbstractCachingProxy
     protected $docrootpath = null;            // webserver document root path
     protected $cachepath = null;              // absolut path on webserver were cached files should be placed
     protected $relcachepath = null;           // relative cachepath for scripttags in html
-    protected $cachefileextension = null;     // fileending of cached files
 
     // In debugmode every file will be include in a single tag without modification
     protected $debugmode = false;
@@ -43,17 +42,33 @@ abstract class AbstractCachingProxy
      * @param  string $cachePath             path to cachefile location based on webserver root path
      *
      * @return AbstractCachingProxy          objectinstance
-     */
-    abstract public function __construct($webserverRootPath, $cachePath);
+    */
+    public function __construct($webserverRootPath, $cachePath)
+    {
+        $this->setWebserverRootPath($webserverRootPath);
+        $this->setCachepath($cachePath);
+    }
 
     /**
      * Implement later html code return
      *
      * Implement this to get the specific html head code
      *
+     * @codeCoverageIgnore
+     *
      * @return string   the html scripttag code
     */
     abstract public function getIncludeHtml();
+
+    /**
+     * Delivers extension for cached files
+     *
+     * @codeCoverageIgnore
+     *
+     * @return string   file extension
+     *
+     */
+    abstract protected function getCacheFileExtension();
 
     /**
      * Add files to proxy
@@ -303,7 +318,7 @@ abstract class AbstractCachingProxy
         $cachefilesignature = $this->calculateFileSignature();
 
         // Zusammenbau des Pfad, ausgehend vom Dokument root
-        $cachefile = $cachefilesignature.$this->cachefileextension;
+        $cachefile = $cachefilesignature.$this->getCacheFileExtension();
 
         $absolutcachepath = $this->cachepath.$cachefile;
 
