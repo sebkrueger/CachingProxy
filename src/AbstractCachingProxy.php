@@ -25,7 +25,7 @@ namespace secra\CachingProxy;
 
 abstract class AbstractCachingProxy
 {
-    private $internfilelist = array();        // array with files that should be cached later
+    protected $internfilelist = array();      // array with files that should be cached later
     private $externfilelist = array();        // array with extern files
 
     protected $docrootpath = null;            // webserver document root path

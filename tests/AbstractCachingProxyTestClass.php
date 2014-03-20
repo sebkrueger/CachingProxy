@@ -61,4 +61,9 @@ class AbstractCachingProxyTestClass extends AbstractCachingProxy
     {
         return $this->relcachepath;
     }
+
+    public function getInternFilelist()
+    {
+        return $this->internfilelist;
+    }
 }
