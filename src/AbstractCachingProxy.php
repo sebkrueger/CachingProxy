@@ -41,7 +41,7 @@ abstract class AbstractCachingProxy
      * @param  string $webserverRootPath     absolut path to webserver root
      * @param  string $cachePath             path to cachefile location based on webserver root path
      *
-     * @return AbstractCachingProxy          objectinstance
+     * @return AbstractCachingProxy | null   objectinstance
     */
     public function __construct($webserverRootPath, $cachePath)
     {
