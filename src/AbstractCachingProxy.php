@@ -313,42 +313,41 @@ abstract class AbstractCachingProxy
      */
     private function getCacheFile()
     {
-        // Fragt an, ob eine Datei die zu der Dateisignatur der angefragten Dateinen passt,
-        // schon in der Liste der Dateien ist
+        // Ask if there file signature match with, requested files in the file list
         $cachefilesignature = $this->calculateFileSignature();
 
-        // Zusammenbau des Pfad, ausgehend vom Dokument root
+        // connect the path, related to document root
         $cachefile = $cachefilesignature.$this->getCacheFileExtension();
 
         $absolutcachepath = $this->cachepath.$cachefile;
 
-        // Set §return value null in case there are no internfiles
+        // set return value null in case there are no internfiles
         $returnfile = null;
 
         if ($cachefilesignature!=null && !file_exists($absolutcachepath)) {
-            // Die Datei wurde noch nie in den Cache geschrieben, jetzt erzeugen -> the hard way!
-            // and cachefilesignature has to be differnet from null
+            // the file has never been written, write now -> the hard way!
+            // and cachefilesignature has to be different from null
 
-            // Dateien zusammenfügen
+            // put files together
             foreach ($this->internfilelist as $file) {
-                // Inhalt der aktuellen Datei einlesen
+                // read content of current file
                 $filecontent = file_get_contents($file);
 
-                // Um Sicherzugehen noch einen Zeilewechsel anfügen
+                // to be safe, add new line
                 $filecontent .= "\n";
 
-                // Beim schreiben Dateiinhalt anfügen und Datei zum Schreiben von anderen locken!
+                echo "here!";
+
+                // Append content while writing and look file on other access tries!
                 if (file_put_contents($absolutcachepath, $filecontent, FILE_APPEND | LOCK_EX)===false) {
-                    // Beim Schreiben der Datei ist was falsch gelaufen
-                    // Cachedatei löschen und hoffen beim nächsten mal klappt es mit dem Schreiben
-                    unlink($absolutcachepath);
+                    // TODO: this error check won't work well, maybe better use othe funktion to write the file
                     return false;
                 }
             }
-            // Angsthasen pause
+            // short delay to be safe
             usleep(5000);
 
-            // jetzt noch gzip Version der Datei erzeugen, wenn wir schon mal dabei sind
+            // now make the gzip version, once we on the way
             file_put_contents($absolutcachepath.".gz", gzencode(file_get_contents($absolutcachepath), 9));
 
             $returnfile = $this->relcachepath.$cachefile;
