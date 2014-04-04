@@ -1,10 +1,6 @@
 # do not ignore a gitignore file
 !.gitignore
 
-# ignore idea files created by phpstorm
-.idea/*
-atlassian-ide-plugin.xml
-
 # Composer and Unitteststuff
 vendor/*
 composer.lock
