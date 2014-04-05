@@ -2,7 +2,7 @@
 /*------------------------------------------------------------------------------
 
    Project  : CachingProxy
-   Filename : tests/AbstractCachingProxyTestConstructor.php
+   Filename : tests/AbstractCachingProxyMockClassRealpath.php
    Autor    : (c) Sebastian Krüger <krueger@secra.de>
    Date     : 19.03.2014
 
@@ -10,16 +10,13 @@
    file that was distributed with this source code.
 
    Description: extends the AbstractCachingProxy class only to test
-                Constructor habbits, in other cases better use the
-                unittest getMockForAbstractClass() function
+                Realpath function behavior in without override it
 
   ----------------------------------------------------------------------------*/
 
 namespace secra\CachingProxy;
 
-require_once 'overrideRealpathFunction.php';
-
-class AbstractCachingProxyTestConstructor extends AbstractCachingProxy
+class AbstractCachingProxyMockClassRealpath extends AbstractCachingProxy
 {
     public function getCacheFileExtension()
     {
@@ -30,20 +27,5 @@ class AbstractCachingProxyTestConstructor extends AbstractCachingProxy
     public function getIncludeHtml()
     {
         return "";
-    }
-
-    public function getDocrootpath()
-    {
-        return $this->docrootpath;
-    }
-
-    public function getCachepath()
-    {
-        return $this->cachepath;
-    }
-
-    public function getRelCachepath()
-    {
-        return $this->relcachepath;
     }
 }

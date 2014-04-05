@@ -336,8 +336,6 @@ abstract class AbstractCachingProxy
                 // to be safe, add new line
                 $filecontent .= "\n";
 
-                echo "here!";
-
                 // Append content while writing and look file on other access tries!
                 if (file_put_contents($absolutcachepath, $filecontent, FILE_APPEND | LOCK_EX)===false) {
                     // TODO: this error check won't work well, maybe better use othe funktion to write the file
