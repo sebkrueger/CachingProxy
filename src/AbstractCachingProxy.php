@@ -86,10 +86,10 @@ abstract class AbstractCachingProxy
         // Externen Dateien unterschieden beginnen z.B. mit http, https, ftp und dann ://
         // or protocoll less // links
         if (!preg_match("#^[a-z]{3,5}://#i", $filename) && !preg_match("#^//#i", $filename)) {
-            // Internes File, Arbeit für den Cache
+            // intern files, work for the cache
             $absolutfilename = self::makeAbsolutPath($filename);
             if (!file_exists($absolutfilename)) {
-                // Die Datei existiert nicht!
+                // the file did't exist
                 return false;
             }
 
@@ -144,7 +144,7 @@ abstract class AbstractCachingProxy
             // only put the internfiles to the list of returned files
             foreach ($this->internfilelist as $file) {
                 // strip the absolut dir for inclusion and put it to the list
-                // Use the $ as reg_exp separater because don't expect it in path
+                // use the $ as reg_exp separater because don't expect it in path
                 $returnfilelist[] = "/".preg_replace("$^".($this->docrootpath)."$", "", $file);
             }
         }
@@ -282,8 +282,7 @@ abstract class AbstractCachingProxy
      */
     private function makeMinifiPath($path)
     {
-        // Prüft ob eine minifizierte Version der Datei existiert,
-        // falls ja wird diese benutzt
+        // check if there's a minified version of file, if yes there min version will be used
 
         // split path at the dots
         $splitpath = explode(".", $path);
@@ -313,7 +312,7 @@ abstract class AbstractCachingProxy
      */
     private function getCacheFile()
     {
-        // Ask if there file signature match with, requested files in the file list
+        // ask if there file signature match with, requested files in the file list
         $cachefilesignature = $this->calculateFileSignature();
 
         // connect the path, related to document root
@@ -336,9 +335,9 @@ abstract class AbstractCachingProxy
                 // to be safe, add new line
                 $filecontent .= "\n";
 
-                // Append content while writing and look file on other access tries!
+                // append content while writing and look file on other access tries!
                 if (file_put_contents($absolutcachepath, $filecontent, FILE_APPEND | LOCK_EX)===false) {
-                    // TODO: this error check won't work well, maybe better use othe funktion to write the file
+                    // TODO: this error check won't work well, maybe better use other function to write the file
                     return false;
                 }
             }
@@ -365,9 +364,9 @@ abstract class AbstractCachingProxy
      */
     private function calculateFileSignature()
     {
-        // Erzeugt aus allen Dateien im internen Array eine Signatur
-        // Hierz wird der Dateiname+Änderungsdatum der Datei verrechnet und
-        // als md5 zurückgegeben
+        // create a signature with all files in intern array structure
+        // to make it unified, every filname and filechange date will calculate
+        // together and return as md5 sum
         $tempstingbase = "";
 
         foreach ($this->internfilelist as $file) {
