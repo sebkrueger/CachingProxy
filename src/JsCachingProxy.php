@@ -49,5 +49,4 @@ class JsCachingProxy extends AbstractCachingProxy
         // return Extension of css files
         return '.js';
     }
-
 }
