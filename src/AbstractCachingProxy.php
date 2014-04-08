@@ -323,30 +323,33 @@ abstract class AbstractCachingProxy
         // set return value null in case there are no internfiles
         $returnfile = null;
 
-        if ($cachefilesignature!=null && !file_exists($absolutcachepath)) {
-            // the file has never been written, write now -> the hard way!
-            // and cachefilesignature has to be different from null
+        if ($cachefilesignature!=null) {
+            // The cachefilesignature has to be different from null to start
+            if (!file_exists($absolutcachepath)) {
+                // the file has never been written, write now -> the hard way!
+                // put files together
+                foreach ($this->internfilelist as $file) {
+                    // read content of current file
+                    $filecontent = file_get_contents($file);
 
-            // put files together
-            foreach ($this->internfilelist as $file) {
-                // read content of current file
-                $filecontent = file_get_contents($file);
+                    // to be safe, add new line
+                    $filecontent .= "\n";
 
-                // to be safe, add new line
-                $filecontent .= "\n";
-
-                // append content while writing and look file on other access tries!
-                if (file_put_contents($absolutcachepath, $filecontent, FILE_APPEND | LOCK_EX)===false) {
-                    // TODO: this error check won't work well, maybe better use other function to write the file
-                    return false;
+                    // append content while writing and look file on other access tries!
+                    if (file_put_contents($absolutcachepath, $filecontent, FILE_APPEND | LOCK_EX)===false) {
+                        // TODO: this error check won't work well, maybe better use other function to write the file
+                        return false;
+                    }
                 }
+                // short delay to be safe
+                usleep(5000);
+
+                // now make the gzip version, once we on the way
+                file_put_contents($absolutcachepath.".gz", gzencode(file_get_contents($absolutcachepath), 9));
             }
-            // short delay to be safe
-            usleep(5000);
 
-            // now make the gzip version, once we on the way
-            file_put_contents($absolutcachepath.".gz", gzencode(file_get_contents($absolutcachepath), 9));
-
+            // Files in Cachefolder still exits, assume we created it at another run
+            // don't create them once again only build the path an return it
             $returnfile = $this->relcachepath.$cachefile;
         }
 
