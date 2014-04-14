@@ -255,6 +255,22 @@ abstract class AbstractCachingProxy
     }
 
     /**
+     *
+     * Predefined Function to do something content specific work in
+     * concrete classes right befor the minify process
+     * default do nothing and return the sting one2one
+     *
+     * @param string $filecontent     filecontent to process
+     *
+     * @return string     modified filecontent
+     */
+    protected function modifyFilecontent($filecontent)
+    {
+        // default -> return content one2one
+        return $filecontent;
+    }
+
+    /**
      * Relative to absolut path
      *
      * Convert relativ path webserver root path to
@@ -330,7 +346,8 @@ abstract class AbstractCachingProxy
                 // put files together
                 foreach ($this->internfilelist as $file) {
                     // read content of current file
-                    $filecontent = file_get_contents($file);
+                    // if overwritten, modfiy the content and put the files together in one string
+                    $filecontent = $this->modifyFilecontent(file_get_contents($file));
 
                     // to be safe, add new line
                     $filecontent .= "\n";

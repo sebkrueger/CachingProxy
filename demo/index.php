@@ -26,9 +26,6 @@ require_once("../vendor/autoload.php");
     // set webserverrootpath and the cachingpath relative from webserver root
     $css_cache = new \secra\CachingProxy\CssCachingProxy($_SERVER["DOCUMENT_ROOT"], "/demo/css/cache");
 
-    // In debug mode every file will insert in a single tag with modification
-    $css_cache->enableDebugmode();
-
     // Add some files
     $css_cache->addFile("/demo/css/main.css");
     $css_cache->addFile("/demo/css/element1.css");
@@ -40,9 +37,6 @@ require_once("../vendor/autoload.php");
     // init the js Caching object
     // set webserverrootpath and the cachingpath relative from webserver root
     $js_cache = new \secra\CachingProxy\JsCachingProxy($_SERVER["DOCUMENT_ROOT"], "/demo/js/cache");
-
-    // Enable the Debugmode for js files
-    $js_cache->enableDebugmode();
 
     $js_cache->addFile("/demo/js/button.js");
 
