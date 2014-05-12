@@ -49,4 +49,42 @@ class CssCachingProxy extends AbstractCachingProxy
         // return Extension of css files
         return '.css';
     }
+
+    /**
+     * Modifiy filepath definations in css files because of
+     * different cachefolder path
+     *
+     * @param  string $csscontent     content processed of css file
+     * @param  string $cssfilepath    absolut path to css file
+     *
+     * @return string   modified css content
+     *
+     */
+    protected function modifyFilecontent($csscontent, $cssfilepath)
+    {
+
+        $relativeCssFilePath = preg_replace("#^".$this->docrootpath."#", "", $cssfilepath);
+
+        // Use # insted of / in regexpress!
+        // Search for every url() expr in css files
+        // only if the start with ./
+        // Don't matter if url in " or not
+        // with modifier e you can handel the found with function
+        $csscontent = preg_replace ('#url\("?\./([^"]+)"?\)#ie', "'url(\"'.self::convertUrl('\\1').'\")'", $csscontent);
+        // return css content
+        return $csscontent;
+    }
+
+    /**
+     * Convert Css Url in preg match found
+     *
+     * @param  string $cssurl     unmodified css url
+     *
+     * @return string   modified css url
+     *
+     */
+    protected static function convertUrl($cssurl)
+    {
+        return strtoupper ($cssurl);
+    }
 }

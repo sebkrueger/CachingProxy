@@ -75,4 +75,43 @@ class CssCachingProxyTest extends \PHPUnit_Framework_TestCase
         $this->assertStringEndsWith("\n", $testHtml);
         $this->assertEquals($styleTagHtml, $testHtml);
     }
+
+    /**
+     * @test
+     * @covers secra\Cachingproxy\CssCachingProxy::modifyFilecontent()
+     */
+    public function testModifyFilecontent()
+    {
+        // Build reflection of protected function
+        $method = new \ReflectionMethod($this->cachingproxy, 'modifyFilecontent');
+        $method->setAccessible(true);
+
+        $csscontent  = ".bgImageVersion1 {\n";
+        $csscontent .= "     background-image: url(\"./img/german_flag.jpg\");\n";
+        $csscontent .= "}\n\n";
+        $csscontent .= ".bgImageVersion2 {\n";
+        $csscontent .= "     background-image: url(./img/german_flag.jpg);\n";
+        $csscontent .= "}\n\n";
+        $csscontent .= ".bgImageVersion3 {\n";
+        $csscontent .= "     background-image: url(\"../css_framework_abc/img/german_flag.jpg\");\n";
+        $csscontent .= "}\n\n";
+        $csscontent .= ".bgImageVersion4 {\n";
+        $csscontent .= "     background-image: url(\"/demo/css/css_framework_abc/img/german_flag.jpg\");\n";
+        $csscontent .= "}";
+
+        $csscontentexpected  = ".bgImageVersion1 {\n";
+        $csscontentexpected .= "     background-image: url(\"../css_framework_abc/img/german_flag.jpg\");\n";
+        $csscontentexpected .= "}\n\n";
+        $csscontentexpected .= ".bgImageVersion2 {\n";
+        $csscontentexpected .= "     background-image: url(../css_framework_abc/img/german_flag.jpg);\n";
+        $csscontentexpected .= "}\n\n";
+        $csscontentexpected .= ".bgImageVersion3 {\n";
+        $csscontentexpected .= "     background-image: url(\"../css_framework_abc/img/german_flag.jpg\");\n";
+        $csscontentexpected .= "}\n\n";
+        $csscontentexpected .= ".bgImageVersion4 {\n";
+        $csscontentexpected .= "     background-image: url(\"/demo/css/css_framework_abc/img/german_flag.jpg\");\n";
+        $csscontentexpected .= "}";
+
+        $this->assertEquals($csscontentexpected, $method->invoke($this->cachingproxy,array($csscontent)));
+    }
 } 

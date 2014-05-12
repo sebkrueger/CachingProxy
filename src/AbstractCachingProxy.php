@@ -261,10 +261,11 @@ abstract class AbstractCachingProxy
      * default do nothing and return the sting one2one
      *
      * @param string $filecontent     filecontent to process
+     * @param string $filepath        path to the file to convert it later
      *
      * @return string     modified filecontent
      */
-    protected function modifyFilecontent($filecontent)
+    protected function modifyFilecontent($filecontent, $filepath)
     {
         // default -> return content one2one
         return $filecontent;
@@ -347,7 +348,7 @@ abstract class AbstractCachingProxy
                 foreach ($this->internfilelist as $file) {
                     // read content of current file
                     // if overwritten, modfiy the content and put the files together in one string
-                    $filecontent = $this->modifyFilecontent(file_get_contents($file));
+                    $filecontent = $this->modifyFilecontent(file_get_contents($file), $file);
 
                     // to be safe, add new line
                     $filecontent .= "\n";
