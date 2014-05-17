@@ -100,18 +100,18 @@ class CssCachingProxyTest extends \PHPUnit_Framework_TestCase
         $csscontent .= "}";
 
         $csscontentexpected  = ".bgImageVersion1 {\n";
-        $csscontentexpected .= "     background-image: url(\"../css_framework_abc/img/german_flag.jpg\");\n";
+        $csscontentexpected .= "     background-image: url(\"/demo/css/css_framework_abc/img/german_flag.jpg\");\n";
         $csscontentexpected .= "}\n\n";
         $csscontentexpected .= ".bgImageVersion2 {\n";
-        $csscontentexpected .= "     background-image: url(../css_framework_abc/img/german_flag.jpg);\n";
+        $csscontentexpected .= "     background-image: url(/demo/css/css_framework_abc/img/german_flag.jpg);\n";
         $csscontentexpected .= "}\n\n";
         $csscontentexpected .= ".bgImageVersion3 {\n";
-        $csscontentexpected .= "     background-image: url(\"../css_framework_abc/img/german_flag.jpg\");\n";
+        $csscontentexpected .= "     background-image: url(\"/demo/css/css_framework_abc/img/german_flag.jpg\");\n";
         $csscontentexpected .= "}\n\n";
         $csscontentexpected .= ".bgImageVersion4 {\n";
         $csscontentexpected .= "     background-image: url(\"/demo/css/css_framework_abc/img/german_flag.jpg\");\n";
         $csscontentexpected .= "}";
 
-        $this->assertEquals($csscontentexpected, $method->invoke($this->cachingproxy,array($csscontent)));
+        $this->assertEquals($csscontentexpected, $method->invokeArgs($this->cachingproxy,array($csscontent,"/demo/css/css_framework_abc")));
     }
 } 
