@@ -69,22 +69,13 @@ class CssCachingProxy extends AbstractCachingProxy
         // Search for every url() expr in css files
         // only if the start with ./
         // Don't matter if url in " or not
-        // with modifier e you can handel the found with function
-        $csscontent = preg_replace ('#url\("?\./([^"]+)"?\)#ie', "'url(\"'.self::convertUrl('\\1').'\")'", $csscontent);
+        $csscontent = preg_replace_callback('#url\("?\./([^"]+)"?\)#i',
+            function($matches) {
+                // $matches[1] contain first subpattern
+                return 'url("'.strtoupper($matches[1]).'")';
+            }, $csscontent);
+
         // return css content
         return $csscontent;
-    }
-
-    /**
-     * Convert Css Url in preg match found
-     *
-     * @param  string $cssurl     unmodified css url
-     *
-     * @return string   modified css url
-     *
-     */
-    protected static function convertUrl($cssurl)
-    {
-        return strtoupper ($cssurl);
     }
 }

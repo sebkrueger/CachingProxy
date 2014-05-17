@@ -80,7 +80,7 @@ class CssCachingProxyTest extends \PHPUnit_Framework_TestCase
      * @test
      * @covers secra\Cachingproxy\CssCachingProxy::modifyFilecontent()
      */
-    public function testModifyFilecontent()
+/*    public function testModifyFilecontent()
     {
         // Build reflection of protected function
         $method = new \ReflectionMethod($this->cachingproxy, 'modifyFilecontent');
@@ -113,5 +113,5 @@ class CssCachingProxyTest extends \PHPUnit_Framework_TestCase
         $csscontentexpected .= "}";
 
         $this->assertEquals($csscontentexpected, $method->invokeArgs($this->cachingproxy,array($csscontent,"/demo/css/css_framework_abc")));
-    }
+    }*/
 } 
