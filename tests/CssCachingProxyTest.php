@@ -80,38 +80,121 @@ class CssCachingProxyTest extends \PHPUnit_Framework_TestCase
      * @test
      * @covers secra\Cachingproxy\CssCachingProxy::modifyFilecontent()
      */
-/*    public function testModifyFilecontent()
+    public function testModifyFilecontentAbsolutUrls()
     {
         // Build reflection of protected function
         $method = new \ReflectionMethod($this->cachingproxy, 'modifyFilecontent');
         $method->setAccessible(true);
 
+        // Override Rootpath for this test
+        $property = new \ReflectionProperty($this->cachingproxy, 'docrootpath');
+        $property->setAccessible(true);
+        $property->setValue($this->cachingproxy, '/var/www/');
+
         $csscontent  = ".bgImageVersion1 {\n";
-        $csscontent .= "     background-image: url(\"./img/german_flag.jpg\");\n";
-        $csscontent .= "}\n\n";
-        $csscontent .= ".bgImageVersion2 {\n";
-        $csscontent .= "     background-image: url(./img/german_flag.jpg);\n";
-        $csscontent .= "}\n\n";
-        $csscontent .= ".bgImageVersion3 {\n";
-        $csscontent .= "     background-image: url(\"../css_framework_abc/img/german_flag.jpg\");\n";
-        $csscontent .= "}\n\n";
-        $csscontent .= ".bgImageVersion4 {\n";
         $csscontent .= "     background-image: url(\"/demo/css/css_framework_abc/img/german_flag.jpg\");\n";
         $csscontent .= "}";
 
         $csscontentexpected  = ".bgImageVersion1 {\n";
         $csscontentexpected .= "     background-image: url(\"/demo/css/css_framework_abc/img/german_flag.jpg\");\n";
-        $csscontentexpected .= "}\n\n";
-        $csscontentexpected .= ".bgImageVersion2 {\n";
-        $csscontentexpected .= "     background-image: url(/demo/css/css_framework_abc/img/german_flag.jpg);\n";
+        $csscontentexpected .= "}";
+
+        $this->assertEquals($csscontentexpected, $method->invokeArgs($this->cachingproxy,array($csscontent,"/var/www/demo/css/css_framework_abc/css_framework_abc.css")));
+    }
+
+    /**
+     * @test
+     * @covers secra\Cachingproxy\CssCachingProxy::modifyFilecontent()
+     */
+    public function testModifyFilecontentDotRelativeUrls()
+    {
+        // Build reflection of protected function
+        $method = new \ReflectionMethod($this->cachingproxy, 'modifyFilecontent');
+        $method->setAccessible(true);
+
+        // Override Rootpath for this test
+        $property = new \ReflectionProperty($this->cachingproxy, 'docrootpath');
+        $property->setAccessible(true);
+        $property->setValue($this->cachingproxy, '/var/www/');
+
+        $csscontent  = ".bgImageVersion2 {\n";
+        $csscontent .= "     background-image: url(\"./img/german_flag.jpg\");\n";
+        $csscontent .= "}\n\n";
+        $csscontent .= ".bgImageVersion3 {\n";
+        $csscontent .= "     background-image: url(./img/german_flag.jpg);\n";
+        $csscontent .= "}";
+
+        $csscontentexpected  = ".bgImageVersion2 {\n";
+        $csscontentexpected .= "     background-image: url(\"/demo/css/css_framework_abc/img/german_flag.jpg\");\n";
         $csscontentexpected .= "}\n\n";
         $csscontentexpected .= ".bgImageVersion3 {\n";
         $csscontentexpected .= "     background-image: url(\"/demo/css/css_framework_abc/img/german_flag.jpg\");\n";
+        $csscontentexpected .= "}";
+
+        $this->assertEquals($csscontentexpected, $method->invokeArgs($this->cachingproxy,array($csscontent,"/var/www/demo/css/css_framework_abc/css_framework_abc.css")));
+    }
+
+    /**
+     * @test
+     * @covers secra\Cachingproxy\CssCachingProxy::modifyFilecontent()
+     */
+    public function testModifyFilecontentOneDoubleDotRelativeUrls()
+    {
+        // Build reflection of protected function
+        $method = new \ReflectionMethod($this->cachingproxy, 'modifyFilecontent');
+        $method->setAccessible(true);
+
+        // Override Rootpath for this test
+        $property = new \ReflectionProperty($this->cachingproxy, 'docrootpath');
+        $property->setAccessible(true);
+        $property->setValue($this->cachingproxy, '/var/www/');
+
+        $csscontent  = ".bgImageVersion4 {\n";
+        $csscontent .= "     background-image: url(\"../css_framework_abc/img/german_flag.jpg\");\n";
+        $csscontent .= "}\n\n";
+        $csscontent .= ".bgImageVersion5 {\n";
+        $csscontent .= "     background-image: url(../css_framework_abc/img/german_flag.jpg);\n";
+        $csscontent .= "}";
+
+        $csscontentexpected  = ".bgImageVersion4 {\n";
+        $csscontentexpected .= "     background-image: url(\"/demo/css/css_framework_abc/img/german_flag.jpg\");\n";
         $csscontentexpected .= "}\n\n";
-        $csscontentexpected .= ".bgImageVersion4 {\n";
+        $csscontentexpected .= ".bgImageVersion5 {\n";
         $csscontentexpected .= "     background-image: url(\"/demo/css/css_framework_abc/img/german_flag.jpg\");\n";
         $csscontentexpected .= "}";
 
-        $this->assertEquals($csscontentexpected, $method->invokeArgs($this->cachingproxy,array($csscontent,"/demo/css/css_framework_abc")));
-    }*/
+        $this->assertEquals($csscontentexpected, $method->invokeArgs($this->cachingproxy,array($csscontent,"/var/www/demo/css/css_framework_abc/css_framework_abc.css")));
+    }
+
+    /**
+     * @test
+     * @covers secra\Cachingproxy\CssCachingProxy::modifyFilecontent()
+     */
+ /*   public function testModifyFilecontentTwoDoubleDotRelativeUrls()
+    {
+        // Build reflection of protected function
+        $method = new \ReflectionMethod($this->cachingproxy, 'modifyFilecontent');
+        $method->setAccessible(true);
+
+        // Override Rootpath for this test
+        $property = new \ReflectionProperty($this->cachingproxy, 'docrootpath');
+        $property->setAccessible(true);
+        $property->setValue($this->cachingproxy, '/var/www/');
+
+        $csscontent  = ".bgImageVersion6 {\n";
+        $csscontent .= "     background-image: url(\"../../css/css_framework_abc/img/german_flag.jpg\");\n";
+        $csscontent .= "}\n\n";
+        $csscontent .= ".bgImageVersion7 {\n";
+        $csscontent .= "     background-image: url(../../css/css_framework_abc/img/german_flag.jpg);\n";
+        $csscontent .= "}";
+
+        $csscontentexpected  = ".bgImageVersion6 {\n";
+        $csscontentexpected .= "     background-image: url(\"/demo/css/css_framework_abc/img/german_flag.jpg\");\n";
+        $csscontentexpected .= "}\n\n";
+        $csscontentexpected .= ".bgImageVersion7 {\n";
+        $csscontentexpected .= "     background-image: url(\"/demo/css/css_framework_abc/img/german_flag.jpg\");\n";
+        $csscontentexpected .= "}";
+
+        $this->assertEquals($csscontentexpected, $method->invokeArgs($this->cachingproxy,array($csscontent,"/var/www/demo/css/css_framework_abc/css_framework_abc.css")));
+    } */
 } 

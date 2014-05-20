@@ -62,17 +62,41 @@ class CssCachingProxy extends AbstractCachingProxy
      */
     protected function modifyFilecontent($csscontent, $cssfilepath)
     {
-
-        $relativeCssFilePath = preg_replace("#^".$this->docrootpath."#", "", $cssfilepath);
+        // Remove the path to docroot from full filepath and remove filename from cssfilepath
+        $relativeCssPath = dirname(preg_replace("#^".$this->docrootpath."#", "", $cssfilepath));
 
         // Use # insted of / in regexpress!
-        // Search for every url() expr in css files
-        // only if the start with ./
+        // Search for every url() expr in css files only if the start with ./
         // Don't matter if url in " or not
         $csscontent = preg_replace_callback('#url\("?\./([^"]+)"?\)#i',
-            function($matches) {
+            function($matches) use ($relativeCssPath) {
                 // $matches[1] contain first subpattern
-                return 'url("'.strtoupper($matches[1]).'")';
+                return 'url("/'.$relativeCssPath.'/'.$matches[1].'")';
+            }, $csscontent);
+
+        echo $csscontent;
+
+        // Now search for path with ../ sequences
+        $csscontent = preg_replace_callback('#url\("?(../){1,20}([^"]+)"?\)#i',
+            function($matches) use ($relativeCssPath) {
+                // $matches[1] contains ../ subpattern count how much we had
+                // $matches[2] contain path subpattern
+
+                // Verzeichnistiefe ermitteln
+                echo "iii".$matches[1]."bbb";
+                echo "iii".$matches[2]."bbb";
+
+                $pathdepth = substr_count($matches[1], '../');
+
+                // Remove all folder that dots stand for
+                for($i=0; $i<$pathdepth; $i++) {
+                    // find last occurrence of / in csspath
+                    $slashpos = strrpos($relativeCssPath, "/");
+                    // remove the last folder now, substr replace everything to the end of the string as default
+                    $relativeCssPath = substr_replace($relativeCssPath, "", $slashpos);
+                }
+
+                return 'url("/'.$relativeCssPath.'/'.$matches[2].'")';
             }, $csscontent);
 
         // return css content
