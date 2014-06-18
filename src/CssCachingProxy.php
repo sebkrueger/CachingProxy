@@ -74,29 +74,40 @@ class CssCachingProxy extends AbstractCachingProxy
                 return 'url("/'.$relativeCssPath.'/'.$matches[1].'")';
             }, $csscontent);
 
-        echo $csscontent;
-
         // Now search for path with ../ sequences
         $csscontent = preg_replace_callback('#url\("?(../){1,20}([^"]+)"?\)#i',
             function($matches) use ($relativeCssPath) {
-                // $matches[1] contains ../ subpattern count how much we had
+                // $matches[0] contains whole matching pattern
+                // $matches[1] contains ../ subpattern !! but only one time !!
                 // $matches[2] contain path subpattern
 
-                // Verzeichnistiefe ermitteln
-                echo "iii".$matches[1]."bbb";
-                echo "iii".$matches[2]."bbb";
+                // Now count only how much ../ in the begining of the string to avoid counting of ../ in the middle
 
-                $pathdepth = substr_count($matches[1], '../');
+                // Where is the first .
+                $posFirstDot = strpos($matches[0], ".");
+
+                // Number of char that countain only ./ from the beginning of the string
+                $charCount = strspn($matches[0], "./" ,$posFirstDot);
+
+                // Cut the first part of the string
+                $pathstring = substr($matches[0], $posFirstDot, $charCount);
+
+                // Count the ../
+                $pathdepth = substr_count($pathstring, '../');
+
+                // Add starting slash, in case all folders has to be replaced, so the last can match in for loop
+                // later the / is need because we transform the relativ to absolut path, so we need a starting slash
+                $relativeCssPath = "/".$relativeCssPath;
 
                 // Remove all folder that dots stand for
                 for($i=0; $i<$pathdepth; $i++) {
-                    // find last occurrence of / in csspath
-                    $slashpos = strrpos($relativeCssPath, "/");
+                    // find last occurrence of / in csspath, remove folder depth from last to first
+                    $LastSlashPos = strrpos($relativeCssPath, "/");
                     // remove the last folder now, substr replace everything to the end of the string as default
-                    $relativeCssPath = substr_replace($relativeCssPath, "", $slashpos);
+                    $relativeCssPath = substr_replace($relativeCssPath, "", $LastSlashPos);
                 }
 
-                return 'url("/'.$relativeCssPath.'/'.$matches[2].'")';
+                return 'url("'.$relativeCssPath.'/'.$matches[2].'")';
             }, $csscontent);
 
         // return css content

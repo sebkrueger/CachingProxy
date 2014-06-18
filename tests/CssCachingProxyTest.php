@@ -167,10 +167,10 @@ class CssCachingProxyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @test
-     * @covers secra\Cachingproxy\CssCachingProxy::modifyFilecontent()
-     */
- /*   public function testModifyFilecontentTwoDoubleDotRelativeUrls()
+ * @test
+ * @covers secra\Cachingproxy\CssCachingProxy::modifyFilecontent()
+ */
+    public function testModifyFilecontentTwoDoubleDotRelativeUrls()
     {
         // Build reflection of protected function
         $method = new \ReflectionMethod($this->cachingproxy, 'modifyFilecontent');
@@ -196,5 +196,37 @@ class CssCachingProxyTest extends \PHPUnit_Framework_TestCase
         $csscontentexpected .= "}";
 
         $this->assertEquals($csscontentexpected, $method->invokeArgs($this->cachingproxy,array($csscontent,"/var/www/demo/css/css_framework_abc/css_framework_abc.css")));
-    } */
+    }
+
+    /**
+     * @test
+     * @covers secra\Cachingproxy\CssCachingProxy::modifyFilecontent()
+     */
+    public function testModifyFilecontentThreeDoubleDotRelativeUrls()
+    {
+        // Build reflection of protected function
+        $method = new \ReflectionMethod($this->cachingproxy, 'modifyFilecontent');
+        $method->setAccessible(true);
+
+        // Override Rootpath for this test
+        $property = new \ReflectionProperty($this->cachingproxy, 'docrootpath');
+        $property->setAccessible(true);
+        $property->setValue($this->cachingproxy, '/var/www/');
+
+        $csscontent  = ".bgImageVersion8 {\n";
+        $csscontent .= "     background-image: url(\"../../../demo/css/css_framework_abc/img/german_flag.jpg\");\n";
+        $csscontent .= "}\n\n";
+        $csscontent .= ".bgImageVersion9 {\n";
+        $csscontent .= "     background-image: url(../../../demo/css/css_framework_abc/img/german_flag.jpg);\n";
+        $csscontent .= "}";
+
+        $csscontentexpected  = ".bgImageVersion8 {\n";
+        $csscontentexpected .= "     background-image: url(\"/demo/css/css_framework_abc/img/german_flag.jpg\");\n";
+        $csscontentexpected .= "}\n\n";
+        $csscontentexpected .= ".bgImageVersion9 {\n";
+        $csscontentexpected .= "     background-image: url(\"/demo/css/css_framework_abc/img/german_flag.jpg\");\n";
+        $csscontentexpected .= "}";
+
+        $this->assertEquals($csscontentexpected, $method->invokeArgs($this->cachingproxy,array($csscontent,"/var/www/demo/css/css_framework_abc/css_framework_abc.css")));
+    }
 } 
