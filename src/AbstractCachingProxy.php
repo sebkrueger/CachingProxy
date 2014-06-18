@@ -267,7 +267,7 @@ abstract class AbstractCachingProxy
      */
     protected function modifyFilecontent($filecontent, $filepath)
     {
-        // default -> return content one2one and ignore the $filepath 
+        // default -> return content one2one and ignore the $filepath
         return $filecontent;
     }
 

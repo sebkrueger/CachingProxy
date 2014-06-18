@@ -68,15 +68,20 @@ class CssCachingProxy extends AbstractCachingProxy
         // Use # insted of / in regexpress!
         // Search for every url() expr in css files only if the start with ./
         // Don't matter if url in " or not
-        $csscontent = preg_replace_callback('#url\("?\./([^"]+)"?\)#i',
-            function($matches) use ($relativeCssPath) {
+        $csscontent = preg_replace_callback(
+            '#url\("?\./([^"]+)"?\)#i',
+            function ($matches) use ($relativeCssPath)
+            {
                 // $matches[1] contain first subpattern
                 return 'url("/'.$relativeCssPath.'/'.$matches[1].'")';
-            }, $csscontent);
+            }, $csscontent
+        );
 
         // Now search for path with ../ sequences
-        $csscontent = preg_replace_callback('#url\("?(../){1,20}([^"]+)"?\)#i',
-            function($matches) use ($relativeCssPath) {
+        $csscontent = preg_replace_callback(
+            '#url\("?(../){1,20}([^"]+)"?\)#i',
+            function ($matches) use ($relativeCssPath)
+            {
                 // $matches[0] contains whole matching pattern
                 // $matches[1] contains ../ subpattern !! but only one time !!
                 // $matches[2] contain path subpattern
@@ -87,7 +92,7 @@ class CssCachingProxy extends AbstractCachingProxy
                 $posFirstDot = strpos($matches[0], ".");
 
                 // Number of char that countain only ./ from the beginning of the string
-                $charCount = strspn($matches[0], "./" ,$posFirstDot);
+                $charCount = strspn($matches[0], "./" , $posFirstDot);
 
                 // Cut the first part of the string
                 $pathstring = substr($matches[0], $posFirstDot, $charCount);
@@ -100,15 +105,17 @@ class CssCachingProxy extends AbstractCachingProxy
                 $relativeCssPath = "/".$relativeCssPath;
 
                 // Remove all folder that dots stand for
-                for($i=0; $i<$pathdepth; $i++) {
+                for ($i=0; $i<$pathdepth; $i++) {
                     // find last occurrence of / in csspath, remove folder depth from last to first
-                    $LastSlashPos = strrpos($relativeCssPath, "/");
+                    $lastSlashPos = strrpos($relativeCssPath, "/");
                     // remove the last folder now, substr replace everything to the end of the string as default
-                    $relativeCssPath = substr_replace($relativeCssPath, "", $LastSlashPos);
+                    $relativeCssPath = substr_replace($relativeCssPath, "", $lastSlashPos);
                 }
 
                 return 'url("'.$relativeCssPath.'/'.$matches[2].'")';
-            }, $csscontent);
+            },
+            $csscontent
+        );
 
         // return css content
         return $csscontent;
