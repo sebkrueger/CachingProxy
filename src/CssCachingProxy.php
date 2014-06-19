@@ -74,7 +74,8 @@ class CssCachingProxy extends AbstractCachingProxy
             {
                 // $matches[1] contain first subpattern
                 return 'url("/'.$relativeCssPath.'/'.$matches[1].'")';
-            }, $csscontent
+            },
+            $csscontent
         );
 
         // Now search for path with ../ sequences
@@ -92,7 +93,7 @@ class CssCachingProxy extends AbstractCachingProxy
                 $posFirstDot = strpos($matches[0], ".");
 
                 // Number of char that countain only ./ from the beginning of the string
-                $charCount = strspn($matches[0], "./" , $posFirstDot);
+                $charCount = strspn($matches[0], "./", $posFirstDot);
 
                 // Cut the first part of the string
                 $pathstring = substr($matches[0], $posFirstDot, $charCount);

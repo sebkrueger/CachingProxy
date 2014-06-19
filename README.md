@@ -41,6 +41,9 @@ The /demo folder contain a sample webpage with the CSS and Javascript.
 
 Changelog
 ---------
+###Version 0.2 (18.	July 2014)
++ Rewrite relative path of ressources in css files
+
 ###Version 0.1 (16.	February 2014)
 + Add Composer Support
 + PSR-4 compatible
