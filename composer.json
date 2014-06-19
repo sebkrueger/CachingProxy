@@ -1,5 +1,5 @@
 {
-    "name": "secra/CachingProxy",
+    "name": "secra/caching-proxy",
     "type": "library",
     "description": "Converts a bunch of .css/.js files to one minified file and precompress them with gzip. Rewrite all relative path of ressources in css files.",
     "keywords": ["caching", "gzip" , "css", "js", "packer", "pack", "packing", "zip", "minify", "combine", "precompress", "compress"],
