@@ -55,5 +55,8 @@ require_once("../vendor/autoload.php");
 <div class="bgImage bgImageVersion2"></div>
 <div class="bgImage bgImageVersion3"></div>
 <div class="bgImage bgImageVersion4"></div>
+<br>
+<br>
+<a ref="#"><i class="icon-music"></i> a Link with Icon</a>
 </body>
 </html>

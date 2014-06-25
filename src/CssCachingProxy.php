@@ -80,12 +80,12 @@ class CssCachingProxy extends AbstractCachingProxy
 
         // Now search for path with ../ sequences
         $csscontent = preg_replace_callback(
-            '#url\("?(../){1,20}([^"]+)"?\)#i',
+            '#url\(("|\')?(../){1,20}([^"\']+)("|\')?\)#i',
             function ($matches) use ($relativeCssPath)
             {
                 // $matches[0] contains whole matching pattern
-                // $matches[1] contains ../ subpattern !! but only one time !!
-                // $matches[2] contain path subpattern
+                // $matches[2] contains ../ subpattern !! but only one time !!
+                // $matches[3] contain path subpattern
 
                 // Now count only how much ../ in the begining of the string to avoid counting of ../ in the middle
 
@@ -113,7 +113,7 @@ class CssCachingProxy extends AbstractCachingProxy
                     $relativeCssPath = substr_replace($relativeCssPath, "", $lastSlashPos);
                 }
 
-                return 'url("'.$relativeCssPath.'/'.$matches[2].'")';
+                return 'url("'.$relativeCssPath.'/'.$matches[3].'")';
             },
             $csscontent
         );

@@ -154,6 +154,9 @@ class CssCachingProxyTest extends \PHPUnit_Framework_TestCase
         $csscontent .= "}\n\n";
         $csscontent .= ".bgImageVersion5 {\n";
         $csscontent .= "     background-image: url(../css_framework_abc/img/german_flag.jpg);\n";
+        $csscontent .= "}\n";
+        $csscontent .= ".fontVersion {\n";
+        $csscontent .= "     src: url('../font/fontawesome-webfont.eot?#iefix&v=3.0.1');\n";
         $csscontent .= "}";
 
         $csscontentexpected  = ".bgImageVersion4 {\n";
@@ -161,6 +164,9 @@ class CssCachingProxyTest extends \PHPUnit_Framework_TestCase
         $csscontentexpected .= "}\n\n";
         $csscontentexpected .= ".bgImageVersion5 {\n";
         $csscontentexpected .= "     background-image: url(\"/demo/css/css_framework_abc/img/german_flag.jpg\");\n";
+        $csscontentexpected .= "}\n";
+        $csscontentexpected .= ".fontVersion {\n";
+        $csscontentexpected .= "     src: url(\"/demo/css/font/fontawesome-webfont.eot?#iefix&v=3.0.1\");\n";
         $csscontentexpected .= "}";
 
         $this->assertEquals($csscontentexpected, $method->invokeArgs($this->cachingproxy,array($csscontent,"/var/www/demo/css/css_framework_abc/css_framework_abc.css")));
