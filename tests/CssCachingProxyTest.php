@@ -138,6 +138,32 @@ class CssCachingProxyTest extends \PHPUnit_Framework_TestCase
      * @test
      * @covers secra\Cachingproxy\CssCachingProxy::modifyFilecontent()
      */
+    public function testModifyFilecontentDotRelativeUrlsWithSpecialChars()
+    {
+        // Build reflection of protected function
+        $method = new \ReflectionMethod($this->cachingproxy, 'modifyFilecontent');
+        $method->setAccessible(true);
+
+        // Override Rootpath for this test
+        $property = new \ReflectionProperty($this->cachingproxy, 'docrootpath');
+        $property->setAccessible(true);
+        $property->setValue($this->cachingproxy, '/var/www/');
+
+        $csscontent  = ".fontVersion {\n";
+        $csscontent .= "     src: url('./font/fontawesome-webfont.eot?#iefix&v=3.0.1');\n";
+        $csscontent .= "}";
+
+        $csscontentexpected  = ".fontVersion {\n";
+        $csscontentexpected .= "     src: url(\"/demo/css/css_framework_abc/font/fontawesome-webfont.eot?#iefix&v=3.0.1\");\n";
+        $csscontentexpected .= "}";
+
+        $this->assertEquals($csscontentexpected, $method->invokeArgs($this->cachingproxy,array($csscontent,"/var/www/demo/css/css_framework_abc/css_framework_abc.css")));
+    }
+
+    /**
+     * @test
+     * @covers secra\Cachingproxy\CssCachingProxy::modifyFilecontent()
+     */
     public function testModifyFilecontentOneDoubleDotRelativeUrls()
     {
         // Build reflection of protected function
