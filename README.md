@@ -50,3 +50,7 @@ Changelog
 + EditorConfig Support
 + Add Licence Text
 + Add usage example in readme
+
+Developer notes
+---------------
+See Developer_Info.md under folder vagarnt-vm

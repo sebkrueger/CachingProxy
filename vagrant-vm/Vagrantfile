@@ -1,0 +1,40 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # Box to build off the vm puppet is importent
+  config.vm.box = "lcn/debian-wheezy-64"
+
+  config.vm.hostname = "cachingproxy"
+
+  # Use not a login shell to prevent mesg outputs
+  config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
+
+  # Create a forwarded port mapping which allows access to a specific port
+  config.vm.network "forwarded_port", guest: 80, host: 8090
+
+  # Share an additional folder to the guest VM.
+  config.vm.synced_folder "../demo", "/var/www/"
+
+  # Provider-specific configuration for VirtualBox Provider
+  config.vm.provider "virtualbox" do |vb|
+     vb.name = "CachingProxy V1.0"
+     vb.customize ["modifyvm", :id, "--memory", "512"]
+     vb.customize ["modifyvm", :id, "--cpus", "1"]
+     vb.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+     vb.customize ["modifyvm", :id, "--vram", "12"]
+     vb.customize ["modifyvm", :id, "--audio", "none"]
+  end
+
+  # --------------------------------------------------------------------------------
+
+  # Enable provisioning with Puppet stand alone.
+#  config.vm.provision "puppet" do |puppet|
+#      puppet.manifests_path = "manifests"
+#      puppet.module_path = "modules"
+#      puppet.manifest_file  = "cachingproxy.pp"
+#   end
+end
