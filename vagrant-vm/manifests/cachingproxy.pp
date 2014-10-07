@@ -26,4 +26,4 @@ File {
     mode => '0644',
 }
 
-include aptget, baseconfig #, apache, apache_vhosts, php, composer
+include aptget, baseconfig, apache, apache_vhosts, php, composer

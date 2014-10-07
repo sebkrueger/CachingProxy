@@ -4,7 +4,7 @@
 #
 class baseconfig {
 
-  package { ['less', 'sysv-rc-conf',
+  package { ['less', 'curl', 'sysv-rc-conf',
              'virtualbox-guest-utils', 'virtualbox-guest-dkms', 'virtualbox-guest-x11', 'virtualbox-ose-guest-x11']:
     ensure => latest;
   }

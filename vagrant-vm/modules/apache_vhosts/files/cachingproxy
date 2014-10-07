@@ -1,0 +1,23 @@
+<VirtualHost *:80>
+  ServerName localhost
+  DocumentRoot /var/www/
+  ServerAdmin root@localhost
+  ErrorLog /var/www/log/error_log
+  CustomLog /var/www/log/access_log common
+
+  <IfModule dir_module>
+     DirectoryIndex index.html index.htm index.php
+  </IfModule>
+
+  <Directory />
+     Options FollowSymLinks
+     AllowOverride None
+  </Directory>
+
+  <Directory "/var/www">
+     Options Indexes FollowSymLinks MultiViews
+     AllowOverride All
+     Order allow,deny
+     Allow from all
+  </Directory>
+</VirtualHost>
