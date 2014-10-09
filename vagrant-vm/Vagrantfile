@@ -8,7 +8,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Box to build off the vm puppet is importent
   config.vm.box = "lcn/debian-wheezy-64"
 
-  config.vm.hostname = "cachingproxy"
+  config.vm.hostname = "localhost"
 
   # Use not a login shell to prevent mesg outputs
   config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
@@ -17,7 +17,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: 80, host: 8090
 
   # Share an additional folder to the guest VM.
-  config.vm.synced_folder "../demo", "/var/www/"
+  config.vm.synced_folder "../.", "/var/www/"
 
   # Provider-specific configuration for VirtualBox Provider
   config.vm.provider "virtualbox" do |vb|
