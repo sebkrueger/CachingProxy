@@ -1,0 +1,5 @@
+# Ignore the apache logfiles
+!.gitignore
+
+# Ignore the apache logfiles
+*_log

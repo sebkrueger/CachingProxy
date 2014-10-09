@@ -1,0 +1,9 @@
+# Start and stop some demons after mount shared folders of virtual box
+# The /usr/bin/screen ist needed because make shure startup script run indepentend
+# while udev kill mother process
+
+# Start on mount
+SUBSYSTEM=="bdi",ACTION=="add",RUN+="/usr/bin/screen -m -d bash -c 'sleep 3; /etc/init.d/apache2 restart'"
+
+# Stop on unmount
+SUBSYSTEM=="bdi",ACTION=="remove",RUN+="/usr/bin/screen -m -d bash -c 'sleep 3; /etc/init.d/apache stop'"
