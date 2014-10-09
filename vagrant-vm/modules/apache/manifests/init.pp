@@ -14,6 +14,7 @@ class apache {
     require => Package['apache2'],
   }
 
+  apache::conf { ['apache2.conf']: }
   apache::enmode { ['expires.load', 'rewrite.load', 'autoindex.load', 'autoindex.conf']: }
   apache::dismode { ['userdir.load', 'userdir.conf',
                      'negotiation.load', 'negotiation.conf',
