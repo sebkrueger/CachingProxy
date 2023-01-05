@@ -41,6 +41,11 @@ The /demo folder contain a sample webpage with the CSS and Javascript.
 
 Changelog
 ---------
+
+###Version 1.0 (04.	Jan 2021)
++ Upgrade PHP Version
++ Switch to docker for local demo
+
 ###Version 0.2 (18.	July 2014)
 + Rewrite relative path of ressources in css files
 

@@ -6,13 +6,4 @@
             <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>
-
-    <filter>
-        <whitelist>
-            <directory suffix=".php">src</directory>
-        </whitelist>
-        <blacklist>
-            <directory suffix=".php">demo</directory>
-        </blacklist>
-    </filter>
 </phpunit>

@@ -21,11 +21,11 @@ use secra\CachingProxy\CssCachingProxy;
  * @copyright 2014 Sebastian Krüger
  * @license http://www.opensource.org/licenses/MIT The MIT License
  */
-class CssCachingProxyTest extends \PHPUnit_Framework_TestCase
+class CssCachingProxyTest extends \PHPUnit\Framework\TestCase
 {
     private $cachingproxy;
 
-    public function setUp()
+    public function setUp() : void
     {
         // instanciate testclass
         $this->cachingproxy = new CssCachingProxy("/","css/cache");
@@ -261,4 +261,4 @@ class CssCachingProxyTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($csscontentexpected, $method->invokeArgs($this->cachingproxy,array($csscontent,"/var/www/demo/css/css_framework_abc/css_framework_abc.css")));
     }
-} 
+}

@@ -3,5 +3,4 @@
 
 # Composer and Unitteststuff
 vendor/*
-composer.lock
 phpunit.xml

@@ -21,11 +21,11 @@ use secra\CachingProxy\JsCachingProxy;
  * @copyright 2014 Sebastian Krüger
  * @license http://www.opensource.org/licenses/MIT The MIT License
  */
-class JsCachingProxyTest extends \PHPUnit_Framework_TestCase
+class JsCachingProxyTest extends \PHPUnit\Framework\TestCase
 {
     private $cachingproxy;
 
-    public function setUp()
+    public function setUp() : void
     {
         // instanciate testclass
         $this->cachingproxy = new JsCachingProxy("/","js/cache");
