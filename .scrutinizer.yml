@@ -6,6 +6,13 @@ filter:
 before_commands:
     - 'composer --prefer-source --dev install'
     - 'cp phpunit.xml.dist phpunit.xml'
+build:
+    nodes:
+        analysis:
+            tests:
+                override:
+                    - php-scrutinizer-run
+
 tools:
     php_mess_detector:
         config:
