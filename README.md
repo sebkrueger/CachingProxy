@@ -1,7 +1,6 @@
 CachingProxy
 ============
 
-[![Build Status](https://travis-ci.org/sebkrueger/CachingProxy.png?branch=master)](https://travis-ci.org/sebkrueger/CachingProxy)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/sebkrueger/CachingProxy/badges/quality-score.png?s=6e879250b7b38e6ae55a7f553d73ae7207b1b36b)](https://scrutinizer-ci.com/g/sebkrueger/CachingProxy/)
 [![Code Coverage](https://scrutinizer-ci.com/g/sebkrueger/CachingProxy/badges/coverage.png?s=b3c19baf3b814a2e46804d0dad23e7b007c034a9)](https://scrutinizer-ci.com/g/sebkrueger/CachingProxy/)
 
